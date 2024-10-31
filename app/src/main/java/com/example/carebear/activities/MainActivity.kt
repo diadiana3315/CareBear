@@ -1,4 +1,4 @@
-package com.example.carebear
+package com.example.carebear.activities
 
 import android.content.Intent
 import android.os.Bundle

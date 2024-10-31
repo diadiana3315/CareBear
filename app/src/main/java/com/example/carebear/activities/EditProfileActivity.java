@@ -1,12 +1,15 @@
-package com.example.carebear;
+package com.example.carebear.activities;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class UserProfileActivity extends AppCompatActivity {
+import com.example.carebear.R;
+
+public class EditProfileActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_edit_profile);
     }
 }
