@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532673729053",
+    "project_id": "carebear-71500",
+    "storage_bucket": "carebear-71500.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532673729053:android:3018e2721c39acf5be2cf4",
+        "android_client_info": {
+          "package_name": "com.example.carebear"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbkwRkgmFjq1OtecT5TMmaiPFPGWSlKbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
