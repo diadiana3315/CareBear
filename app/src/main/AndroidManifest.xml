@@ -35,11 +35,14 @@
             android:name=".activities.HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.EditProfileActivity"/>
+            android:name=".activities.EditProfileActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".activities.ChangePasswordActivity"/>
+            android:name=".activities.ChangePasswordActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".activities.NotificationPreferencesActivity"/>
+            android:name=".activities.NotificationPreferencesActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
 
     </application>

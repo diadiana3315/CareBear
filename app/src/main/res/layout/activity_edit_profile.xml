@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Profile Picture Edit Option -->
-    <ImageView
-        android:id="@+id/edit_profile_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center" />
-    <!-- Username Edit Field -->
-    <EditText
-        android:id="@+id/edit_username"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Enter username" />
-
-    <!-- Bio Edit Field -->
-    <EditText
-        android:id="@+id/edit_bio"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Enter bio" />
-
-    <!-- Save Button -->
-    <Button
-        android:id="@+id/btn_save"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Save" />
+        android:orientation="vertical">
 
-</LinearLayout>
+
+        <Button
+            android:id="@+id/btn_change_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="Change Picture" />
+
+        <!-- Username Edit -->
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Username" />
+
+        <!-- Bio Edit -->
+        <EditText
+            android:id="@+id/et_bio"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Bio"
+            android:inputType="textMultiLine" />
+
+        <!-- Save Changes Button -->
+        <Button
+            android:id="@+id/btn_save_changes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Save Changes" />
+    </LinearLayout>
+</ScrollView>
