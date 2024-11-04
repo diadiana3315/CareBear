@@ -21,15 +21,6 @@ public class MockInterceptor implements Interceptor {
                     .protocol(Protocol.HTTP_1_1)
                     .body(ResponseBody.create(MediaType.parse("application/json"), mockResponse))
                     .build();
-        } else if (path.equals("/login")) {
-            String mockResponse = "{\"success\":true,\"message\":\"Login successful\"}";
-            return new Response.Builder()
-                    .code(200)
-                    .message(mockResponse)
-                    .request(chain.request())
-                    .protocol(Protocol.HTTP_1_1)
-                    .body(ResponseBody.create(MediaType.parse("application/json"), mockResponse))
-                    .build();
         } else {
             return chain.proceed(chain.request());
         }
