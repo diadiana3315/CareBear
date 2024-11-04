@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.carebear.fragments.ChatsFragment;
 import com.example.carebear.fragments.DashboardFragment;
+import com.example.carebear.fragments.DiseaseGroupsFragment;
 import com.example.carebear.fragments.GroupsFragment;
 import com.example.carebear.fragments.HomeFragment;
 import com.example.carebear.fragments.NotificationsFragment;
@@ -45,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.nav_groups) {
-                selectedFragment = new GroupsFragment();
+                selectedFragment = new DiseaseGroupsFragment();
             } else if (item.getItemId() == R.id.nav_chats) {
                 selectedFragment = new ChatsFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
