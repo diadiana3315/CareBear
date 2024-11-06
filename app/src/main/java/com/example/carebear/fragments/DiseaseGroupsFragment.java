@@ -31,9 +31,10 @@ public class DiseaseGroupsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_disease_groups);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Set up adapter with sample data
-        groupsAdapter = new GroupsAdapter(getSampleGroups());
+        // Set up adapter with context and sample data
+        groupsAdapter = new GroupsAdapter(getContext(), getSampleGroups());
         recyclerView.setAdapter(groupsAdapter);
+
 
         return view;
     }
