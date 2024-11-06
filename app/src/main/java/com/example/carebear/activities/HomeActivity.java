@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.carebear.fragments.ChatsFragment;
+import com.example.carebear.fragments.ChatsListFragment;
 import com.example.carebear.fragments.DashboardFragment;
 import com.example.carebear.fragments.GroupsFragment;
 import com.example.carebear.fragments.HomeFragment;
@@ -47,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_groups) {
                 selectedFragment = new GroupsFragment();
             } else if (item.getItemId() == R.id.nav_chats) {
-                selectedFragment = new ChatsFragment();
+                selectedFragment = new ChatsListFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
             }
