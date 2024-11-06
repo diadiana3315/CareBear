@@ -24,10 +24,11 @@
         <!-- Media Button -->
         <ImageButton
             android:id="@+id/btn_attach_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="Attach Media"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_camera" />
 
         <!-- Message Input -->
         <EditText
@@ -42,10 +43,10 @@
         <!-- Send Button -->
         <ImageButton
             android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="Send Message"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
-
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_send" />
     </LinearLayout>
 </RelativeLayout>
