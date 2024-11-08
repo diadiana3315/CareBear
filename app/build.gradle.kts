@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-auth")
+//    implementation("com.google.firebase:firebase-database:20.3.0")
+//    implementation("com.google.gms:google-services:4.4.0")
 //    implementation(libs.okhttp-logging-interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
