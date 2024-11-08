@@ -55,8 +55,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.androidx.recyclerview)
-    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
-    implementation("com.google.firebase:firebase-auth")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
 //    implementation("com.google.firebase:firebase-database:20.3.0")
 //    implementation("com.google.gms:google-services:4.4.0")
 //    implementation(libs.okhttp-logging-interceptor)
@@ -67,4 +68,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 }

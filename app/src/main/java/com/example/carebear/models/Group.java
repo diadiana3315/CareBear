@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatMessage {
-    private String text;
-    private boolean isSent;
-    private long timestamp;
+public class Group {
+    private String id;
+    private String name;
 }
