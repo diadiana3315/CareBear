@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+//    implementation(libs.androidx.recyclerview)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -54,10 +56,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.retrofit)
     implementation(libs.gson)
-    implementation(libs.androidx.recyclerview)
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-auth")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
 //    implementation(libs.okhttp-logging-interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,5 +1,6 @@
 package com.example.carebear.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.carebear.R;
 import com.example.carebear.adapters.GroupsAdapter;
-
+import com.example.carebear.activities.GroupChatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,22 +25,19 @@ public class DiseaseGroupsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_disease_groups, container, false);
 
-        // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view_disease_groups);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Set up adapter with context and sample data
-        groupsAdapter = new GroupsAdapter(getContext(), getSampleGroups());
+        // Sample groups for the list
+        List<String> groups = getSampleGroups();
+        groupsAdapter = new GroupsAdapter(getContext(), groups);
         recyclerView.setAdapter(groupsAdapter);
-
 
         return view;
     }
 
-    // Method to get sample data
     private List<String> getSampleGroups() {
         List<String> groups = new ArrayList<>();
         groups.add("Diabetes Support");

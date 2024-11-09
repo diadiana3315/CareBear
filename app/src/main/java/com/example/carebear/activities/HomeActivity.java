@@ -7,11 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.carebear.fragments.ChatsFragment;
-import com.example.carebear.fragments.DashboardFragment;
 import com.example.carebear.fragments.DiseaseGroupsFragment;
-import com.example.carebear.fragments.GroupsFragment;
 import com.example.carebear.fragments.HomeFragment;
-import com.example.carebear.fragments.NotificationsFragment;
 import com.example.carebear.R;
 import com.example.carebear.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
