@@ -22,6 +22,7 @@ import com.example.carebear.models.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatsFragment extends Fragment {
 
@@ -45,8 +46,15 @@ public class ChatsFragment extends Fragment {
         if (getActivity() instanceof AppCompatActivity) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             activity.setSupportActionBar(toolbar); // Set the toolbar as ActionBar
+            // Set the title of the toolbar to the chat name passed through the arguments
+            String chatName = getArguments() != null ? getArguments().getString("chat_name") : "Chat";
+            Objects.requireNonNull(activity.getSupportActionBar()).setTitle(chatName); // Set the title of the toolbar
+
+            // Set the back arrow icon in the toolbar
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true); // This will show the back button
+
             toolbar.setNavigationOnClickListener(v -> {
-                // Handle the back button
+                // Handle the back button click
                 requireActivity().onBackPressed();  // Navigate back to the previous fragment
             });
         }

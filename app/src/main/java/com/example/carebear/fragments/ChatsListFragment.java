@@ -69,7 +69,7 @@ public class ChatsListFragment extends Fragment {
             UserListFragment userListFragment = new UserListFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, userListFragment)
-                    .addToBackStack(null) // Allows the user to go back to the ChatsListFragment
+                    .addToBackStack(null)  // This ensures the fragment is added to the back stack
                     .commit();
         });
 

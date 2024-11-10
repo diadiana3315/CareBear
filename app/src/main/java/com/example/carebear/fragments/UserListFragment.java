@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +49,15 @@ public class UserListFragment extends Fragment {
             startNewChat(selectedUser);
         });
         recyclerView.setAdapter(userListAdapter);
+
+        // Set up the close button (X button)
+        ImageButton closeButton = rootView.findViewById(R.id.btn_close_user_list);
+        closeButton.setOnClickListener(v -> {
+            // Pop the current fragment off the back stack and return to the ChatsListFragment
+            if (isAdded()) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
 
         return rootView;
     }
