@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +40,16 @@ public class ChatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chats, container, false);
+
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar_chat);
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            activity.setSupportActionBar(toolbar); // Set the toolbar as ActionBar
+            toolbar.setNavigationOnClickListener(v -> {
+                // Handle the back button
+                requireActivity().onBackPressed();  // Navigate back to the previous fragment
+            });
+        }
 
         recyclerView = rootView.findViewById(R.id.recycler_view_messages);
         etMessage = rootView.findViewById(R.id.et_message);

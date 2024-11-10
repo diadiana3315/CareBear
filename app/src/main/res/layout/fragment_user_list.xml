@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Title for the fragment -->
+    <TextView
+        android:id="@+id/tv_user_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Select a User"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- RecyclerView to display the list of users -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_users"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_user_list_title"
+        android:layout_marginTop="8dp"
+        android:padding="8dp" />
+</RelativeLayout>
