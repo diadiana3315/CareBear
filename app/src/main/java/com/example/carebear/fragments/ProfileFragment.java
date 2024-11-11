@@ -24,9 +24,10 @@ import com.example.carebear.activities.ChangePasswordActivity;
 import com.example.carebear.activities.EditProfileActivity;
 import com.example.carebear.activities.LoginActivity;
 import com.example.carebear.activities.NotificationPreferencesActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
-
+    private FirebaseAuth mAuth;
     private ImageView profilePicture;
     private TextView tvUsername, tvBio;
     private EditText etMedications, etAllergies;
@@ -37,6 +38,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
 
         // Bind views
         profilePicture = view.findViewById(R.id.profile_picture);
@@ -91,6 +94,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
+        // Log out from firebase
+        mAuth.signOut();
+
         // Clear any user data if necessary, such as shared preferences
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -1,18 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textViewChats"
-        android:layout_width="wrap_content"
+    <!-- RecyclerView to display chat messages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_messages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/chat_input_layout"
+        android:layout_alignParentTop="true"
+        android:padding="8dp" />
+
+    <!-- Input section at the bottom -->
+    <LinearLayout
+        android:id="@+id/chat_input_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chats Screen"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <!-- Add other UI elements for Chats here -->
+        <!-- Media Button -->
+        <ImageButton
+            android:id="@+id/btn_attach_media"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Attach Media"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_camera" />
 
-</LinearLayout>
+        <!-- Message Input -->
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Type a message"
+            android:inputType="textCapSentences"
+            android:padding="8dp" />
+
+        <!-- Send Button -->
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Send Message"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_send" />
+    </LinearLayout>
+</RelativeLayout>

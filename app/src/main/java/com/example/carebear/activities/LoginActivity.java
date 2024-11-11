@@ -58,31 +58,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carebear.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText etUsername, etPassword;
-    Button btnLogin;
-    TextView tvRegister;
+    private EditText etUsername, etPassword;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
 
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
-        btnLogin = findViewById(R.id.btn_login);
-        tvRegister = findViewById(R.id.tv_register);
-        mAuth = FirebaseAuth.getInstance();
+        Button btnLogin = findViewById(R.id.btn_login);
+        TextView tvRegister = findViewById(R.id.tv_register);
 
         // Redirect to register screen
         tvRegister.setOnClickListener(view -> {
@@ -108,14 +102,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void logIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            onLoginSuccess();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        onLoginSuccess();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
