@@ -43,7 +43,9 @@
         <activity
             android:name=".activities.NotificationPreferencesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
+        <activity
+            android:name=".activities.GroupChatActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 
