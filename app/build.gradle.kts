@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.play.services.auth)
 //    implementation("com.google.firebase:firebase-database:20.3.0")
 //    implementation("com.google.gms:google-services:4.4.0")
-    implementation(libs.google.firebase.auth)
+//    implementation(libs.google.firebase.auth)
 //    implementation(libs.okhttp-logging-interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
