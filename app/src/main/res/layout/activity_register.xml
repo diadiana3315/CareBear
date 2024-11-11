@@ -5,14 +5,6 @@
     android:gravity="center"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/et_register_username"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Username"
-        android:inputType="text"
-        android:padding="10dp" />
-
 
     <EditText
         android:id="@+id/et_register_email"
@@ -26,9 +18,17 @@
         android:id="@+id/et_register_password"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_marginTop="8dp"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_marginTop="8dp" />
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/et_register_password_repeat"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:hint="Repreat Password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btn_register"
