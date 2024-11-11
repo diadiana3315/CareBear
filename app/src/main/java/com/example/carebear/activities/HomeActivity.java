@@ -3,19 +3,17 @@ package com.example.carebear.activities;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.carebear.fragments.ChatsFragment;
-import com.example.carebear.fragments.ChatsListFragment;
-import com.example.carebear.fragments.DashboardFragment;
-import com.example.carebear.fragments.GroupsFragment;
-import com.example.carebear.fragments.HomeFragment;
-import com.example.carebear.fragments.NotificationsFragment;
 import com.example.carebear.R;
+import com.example.carebear.fragments.ChatsListFragment;
+import com.example.carebear.fragments.DiseaseGroupsFragment;
+import com.example.carebear.fragments.HomeFragment;
 import com.example.carebear.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import android.util.Log;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -46,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.nav_groups) {
-                selectedFragment = new GroupsFragment();
+                selectedFragment = new DiseaseGroupsFragment();
             } else if (item.getItemId() == R.id.nav_chats) {
                 selectedFragment = new ChatsListFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
