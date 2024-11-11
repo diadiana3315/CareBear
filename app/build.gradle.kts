@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.play.services.auth)
     implementation(libs.androidx.ui.viewbinding)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 //    implementation("com.google.firebase:firebase-database:20.3.0")
 //    implementation("com.google.gms:google-services:4.4.0")
 //    implementation(libs.google.firebase.auth)

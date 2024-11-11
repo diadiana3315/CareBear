@@ -49,7 +49,7 @@
 //    }
 //}
 
-package com.example.carebear.activities;
+package com.example.carebear.activities.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,6 +61,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carebear.R;
+import com.example.carebear.activities.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {

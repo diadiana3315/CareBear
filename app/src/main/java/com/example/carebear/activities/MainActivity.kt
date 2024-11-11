@@ -1,14 +1,11 @@
 package com.example.carebear.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,15 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.carebear.R
+import com.example.carebear.activities.auth.LoginActivity
+import com.example.carebear.activities.auth.RegisterActivity
+import com.example.carebear.activities.auth.SsoActivity
 import com.example.carebear.ui.theme.CareBearTheme
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +43,7 @@ class MainActivity : ComponentActivity() {
             CareBearTheme {
                 // Scaffold provides a basic structure for the app's UI
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainContent(modifier = Modifier.padding(innerPadding), signInWithGoogle = { context -> signInWithGoogle(context) })
+                    MainContent(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -66,65 +61,10 @@ class MainActivity : ComponentActivity() {
             this.startActivity(intent)
         }
     }
-
-    private fun signInWithGoogle(context: Context) {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(context.getString(R.string.default_web_client_id)) // Replace with your client ID
-            .requestEmail()
-            .build()
-
-        val googleSignInClient = GoogleSignIn.getClient(context, gso)
-        val signInIntent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account)
-            } catch (e: ApiException) {
-                // Handle the exception
-                Log.w("GoogleSignIn", "Google sign-in failed", e)
-                Toast.makeText(
-                    this,
-                    "SignIn with Credential failed: ${task.exception}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        signInIntent.launch(googleSignInClient.signInIntent)
-    }
-
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
-        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        val firebaseAuth = FirebaseAuth.getInstance()
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign-in successful
-                    val user = firebaseAuth.currentUser
-                    Log.d("GoogleSignIn", "SignIn successful: ${user?.displayName}")
-                    Toast.makeText(this, "Sign-in successful", Toast.LENGTH_SHORT).show()
-                    redirectToHome()
-                } else {
-                    // If sign in fails
-                    Log.w("GoogleSignIn", "SignIn with Credential failed: ${task.exception}")
-                    Toast.makeText(
-                        this,
-                        "SignIn with Credential failed: ${task.exception}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-    }
-
-    private fun redirectToHome() {
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
 }
 
 @Composable
-fun MainContent(modifier: Modifier = Modifier, signInWithGoogle: (Context) -> Unit) {
+fun MainContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
     Column(
@@ -160,11 +100,9 @@ fun MainContent(modifier: Modifier = Modifier, signInWithGoogle: (Context) -> Un
             Text(text = "Register")
         }
 
-        // Button to navigate to LoginActivity
         Button(
             onClick = {
-                // Start LoginActivity
-                val intent = Intent(context, LoginActivity::class.java) // Use context here
+                val intent = Intent(context, LoginActivity::class.java)
                 context.startActivity(intent)
             },
             modifier = Modifier.fillMaxWidth()
@@ -175,8 +113,8 @@ fun MainContent(modifier: Modifier = Modifier, signInWithGoogle: (Context) -> Un
         // Google Authentication Button
         Button(
             onClick = {
-                // Trigger Google Sign-In logic here
-                signInWithGoogle(context)
+                val intent = Intent(context, SsoActivity::class.java)
+                context.startActivity(intent)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -194,10 +132,10 @@ fun MainContent(modifier: Modifier = Modifier, signInWithGoogle: (Context) -> Un
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun MainContentPreview() {
-//    CareBearTheme {
-//        MainContent()
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun MainContentPreview() {
+    CareBearTheme {
+        MainContent()
+    }
+}

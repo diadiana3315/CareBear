@@ -1,10 +1,7 @@
-package com.example.carebear.activities;
-
-import static android.content.ContentValues.TAG;
+package com.example.carebear.activities.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
