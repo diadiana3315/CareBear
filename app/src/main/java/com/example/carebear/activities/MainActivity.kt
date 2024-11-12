@@ -26,9 +26,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.carebear.activities.auth.LoginActivity
-import com.example.carebear.activities.auth.RegisterActivity
-import com.example.carebear.activities.auth.SsoActivity
+import com.example.carebear.activities.authentications.LoginActivity
+import com.example.carebear.activities.authentications.RegisterActivity
+import com.example.carebear.activities.authentications.SsoActivity
 import com.example.carebear.ui.theme.CareBearTheme
 import com.google.firebase.auth.FirebaseAuth
 

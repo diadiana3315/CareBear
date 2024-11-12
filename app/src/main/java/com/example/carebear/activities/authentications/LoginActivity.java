@@ -49,7 +49,7 @@
 //    }
 //}
 
-package com.example.carebear.activities.auth;
+package com.example.carebear.activities.authentications;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.carebear.activities;
+package com.example.carebear.activities.settings;
 
 import android.os.Bundle;
 

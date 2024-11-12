@@ -18,10 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.carebear.R;
-import com.example.carebear.activities.ChangePasswordActivity;
-import com.example.carebear.activities.EditProfileActivity;
+import com.example.carebear.activities.settings.ChangePasswordActivity;
+import com.example.carebear.activities.settings.EditProfileActivity;
 import com.example.carebear.activities.MainActivity;
-import com.example.carebear.activities.NotificationPreferencesActivity;
+import com.example.carebear.activities.settings.NotificationPreferencesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {

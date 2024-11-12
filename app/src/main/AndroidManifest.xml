@@ -13,7 +13,7 @@
         android:theme="@style/Theme.CareBear"
         tools:targetApi="31" >
         <activity
-            android:name=".activities.auth.SsoActivity"
+            android:name=".activities.authentications.SsoActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
@@ -26,27 +26,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.auth.RegisterActivity"
+            android:name=".activities.authentications.RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.auth.LoginActivity"
+            android:name=".activities.authentications.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.EditProfileActivity"
+            android:name=".activities.settings.EditProfileActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.ChangePasswordActivity"
+            android:name=".activities.settings.ChangePasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.NotificationPreferencesActivity"
+            android:name=".activities.settings.NotificationPreferencesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.GroupChatActivity"
+            android:name=".activities.groups.GroupChatActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

@@ -1,7 +1,6 @@
-package com.example.carebear.activities;
+package com.example.carebear.activities.groups;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,9 +11,7 @@ import java.util.ArrayList;
 
 public class GroupChatActivity extends AppCompatActivity {
 
-    private ListView listView;
     private EditText editTextMessage;
-    private Button buttonSend;
     private ArrayList<String> chatMessages;
     private ArrayAdapter<String> adapter;
 
@@ -27,9 +24,9 @@ public class GroupChatActivity extends AppCompatActivity {
         String groupName = getIntent().getStringExtra("GROUP_NAME");
         setTitle(groupName);
 
-        listView = findViewById(R.id.list_view_chat);
+        ListView listView = findViewById(R.id.list_view_chat);
         editTextMessage = findViewById(R.id.edit_text_message);
-        buttonSend = findViewById(R.id.button_send);
+        Button buttonSend = findViewById(R.id.button_send);
 
         chatMessages = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatMessages);

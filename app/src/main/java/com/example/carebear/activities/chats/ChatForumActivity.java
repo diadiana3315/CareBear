@@ -1,4 +1,4 @@
-package com.example.carebear.activities;
+package com.example.carebear.activities.chats;
 
 import android.os.Bundle;
 import android.widget.TextView;

@@ -1,26 +1,16 @@
 package com.example.carebear.models;
 
-public class Announcement {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Announcement {
     private String title;
     private String description;
     private String date;
-
-    public Announcement(String title, String description, String date) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getDate() {
-        return date;
-    }
 }
