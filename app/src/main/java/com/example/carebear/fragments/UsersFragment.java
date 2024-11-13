@@ -1,7 +1,5 @@
 package com.example.carebear.fragments;
 
-import static com.google.firebase.database.DatabaseKt.getDatabase;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import lombok.var;
-
 public class UsersFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -36,7 +32,7 @@ public class UsersFragment extends Fragment {
 
     private void initDatabase() {
         DatabaseReference usersRef = database.getReference("users");
-        User user = new User("user", "user@gmail.com");
+        User user = new User("", "user", "user@gmail.com");
         usersRef.child("roFTP9rryVSk85bshtlJn4AhuS73").setValue(user);
 
 
