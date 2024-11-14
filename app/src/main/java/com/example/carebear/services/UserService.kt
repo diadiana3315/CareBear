@@ -1,6 +1,7 @@
 package com.example.carebear.services
 
 import com.example.carebear.models.User
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 
 class UserService private constructor() {
@@ -17,6 +18,18 @@ class UserService private constructor() {
                     it.database = FirebaseDatabase.getInstance()
                 }
             }
+        }
+    }
+
+    fun persistUser(currentUser: FirebaseUser) {
+        if (currentUser.displayName != null && currentUser.email != null) {
+            val user = User(
+                currentUser.uid,
+                currentUser.displayName.toString(),
+                currentUser.email.toString()
+            )
+            val usersRef = database.getReference("users")
+            usersRef.child(user.id).setValue(user)
         }
     }
 

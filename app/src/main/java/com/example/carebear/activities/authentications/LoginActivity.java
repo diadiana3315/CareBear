@@ -11,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carebear.R;
 import com.example.carebear.activities.HomeActivity;
+import com.example.carebear.services.UserService;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private FirebaseAuth mAuth;
+    private final UserService userService = UserService.Companion.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,11 @@ public class LoginActivity extends AppCompatActivity {
     private void logIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null) {
+                        userService.persistUser(user);
+                    }
+
                     if (task.isSuccessful()) {
                         onLoginSuccess();
                     } else {
