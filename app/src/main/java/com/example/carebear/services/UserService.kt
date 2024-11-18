@@ -22,10 +22,11 @@ class UserService private constructor() {
     }
 
     fun persistUser(currentUser: FirebaseUser) {
-        if (currentUser.displayName != null && currentUser.email != null) {
+        if (currentUser.email != null) {
+            val displayName = extractAndCapitalizeEmailPrefix(currentUser.email.toString())
             val user = User(
                 currentUser.uid,
-                currentUser.displayName.toString(),
+                displayName,
                 currentUser.email.toString()
             )
             val usersRef = database.getReference("users")
@@ -36,5 +37,15 @@ class UserService private constructor() {
     fun persistUser(user: User) {
         val usersRef = database.getReference("users")
         usersRef.child(user.id).setValue(user)
+    }
+
+    private fun extractAndCapitalizeEmailPrefix(email: String): String {
+        // Extract the part of the email before '@'
+        val prefix = email.substringBefore("@")
+
+        // Capitalize the first letter and return
+        return prefix.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase() else it.toString()
+        }
     }
 }

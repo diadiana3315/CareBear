@@ -34,7 +34,7 @@ class FriendsFragment  : Fragment(){
 
     private fun initDatabase() {
         val usersRef = database.getReference("users")
-        usersRef.addValueEventListener(object : ValueEventListener {
+        usersRef.orderByChild("email").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val users = mutableListOf<User>()
                 for (userSnapshot in dataSnapshot.children) {

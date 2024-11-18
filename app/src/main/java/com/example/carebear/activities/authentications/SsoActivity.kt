@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.carebear.R
 import com.example.carebear.activities.HomeActivity
+import com.example.carebear.services.UserService.Companion.getInstance
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
 class SsoActivity : AppCompatActivity() {
+    private val userService = getInstance()
+
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -71,6 +74,9 @@ class SsoActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign-in successful
                     val user = firebaseAuth.currentUser
+                    if (user != null) {
+                        userService.persistUser(user)
+                    }
                     Log.d("GoogleSignIn", "SignIn successful: ${user?.displayName}")
                     Toast.makeText(this, "Sign-in successful", Toast.LENGTH_SHORT).show()
                     redirectToHome()
