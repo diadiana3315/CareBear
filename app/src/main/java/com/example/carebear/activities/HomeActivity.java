@@ -30,9 +30,9 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_frame, new FriendsFragment())
+                        .replace(R.id.content_frame, new HomeFragment())
                         .commit();
-                bottomNavigationView.setSelectedItemId(R.id.nav_friends);
+                bottomNavigationView.setSelectedItemId(R.id.nav_home);
             } catch (Exception e) {
                 Log.e(TAG, "Error loading HomeFragment", e);
             }
