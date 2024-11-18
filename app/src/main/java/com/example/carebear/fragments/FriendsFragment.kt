@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +17,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class FriendsFragment  : Fragment(){
+class FriendsFragment : Fragment() {
+    private val databaseUsers = mutableListOf<User>()
+    private var searchedUserEmail = ""
     private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     private lateinit var rootView: View
@@ -27,45 +31,54 @@ class FriendsFragment  : Fragment(){
     ): View {
         rootView = inflater.inflate(R.layout.fragment_users, container, false)
 
-        initDatabase()
+        initFoundUsers()
+
+
+        // Set an OnClickListener for the Search User Button
+        val buttonSearchUser: Button = rootView.findViewById(R.id.button_search_user)
+        buttonSearchUser.setOnClickListener {
+            filterUsersBySearchedEmail()
+        }
 
         return rootView
     }
 
-    private fun initDatabase() {
+    private fun initFoundUsers() {
         val usersRef = database.getReference("users")
         usersRef.orderByChild("email").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val users = mutableListOf<User>()
+                databaseUsers.clear()
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(User::class.java)
-                    user?.let { users.add(it) }
+                    user?.let { databaseUsers.add(it) }
                 }
-
-                val foundUsersView: RecyclerView = rootView.findViewById(R.id.found_users_recycler_view)
-                foundUsersView.layoutManager = LinearLayoutManager(requireContext()) // Use requireContext() or context
-
-                val searchedUsersAdapter = SearchedUserAdapter(users) { user ->
-                    // Handle button click action for a specific user
-                    println("Button clicked for user: ${user.name}")
-                }
-                foundUsersView.adapter = searchedUsersAdapter
-
-
-//                val myFriendsView: RecyclerView = rootView.findViewById(R.id.my_friends_recycler_view)
-//                myFriendsView.layoutManager = LinearLayoutManager(requireContext()) // Use requireContext() or context
-//
-//                val myFriendsAdapter = SearchedUserAdapter(users) { user ->
-//                    // Handle button click action for a specific user
-//                    println("Button clicked for user: ${user.name}")
-//                }
-//                myFriendsView.adapter = myFriendsAdapter
+                filterUsersBySearchedEmail()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle errors
                 println("Failed to read value: " + databaseError.toException())
             }
         })
+    }
+
+    private fun filterUsersBySearchedEmail() {
+        val inputSearchUser: EditText = rootView.findViewById(R.id.input_search_user)
+        searchedUserEmail = inputSearchUser.text.toString()
+        val displayedUsers = mutableListOf<User>()
+        databaseUsers.forEach { user ->
+            if (user.email.contains(searchedUserEmail)) displayedUsers.add(
+                user
+            )
+        }
+        displayFoundUsers(displayedUsers)
+    }
+
+    private fun displayFoundUsers(users: List<User>) {
+        val foundUsersView: RecyclerView = rootView.findViewById(R.id.found_users_recycler_view)
+        foundUsersView.layoutManager = LinearLayoutManager(requireContext())
+        val searchedUsersAdapter = SearchedUserAdapter(users) { user ->
+            println("Fetched user: ${user.email}")
+        }
+        foundUsersView.adapter = searchedUsersAdapter
     }
 }
