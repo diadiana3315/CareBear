@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.viewbinding)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.firestore)
 //    implementation("com.google.firebase:firebase-database:20.3.0")
 //    implementation("com.google.gms:google-services:4.4.0")
 //    implementation(libs.google.firebase.auth)

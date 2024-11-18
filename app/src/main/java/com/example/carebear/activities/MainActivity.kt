@@ -29,10 +29,14 @@ import androidx.compose.ui.unit.dp
 import com.example.carebear.activities.authentications.LoginActivity
 import com.example.carebear.activities.authentications.RegisterActivity
 import com.example.carebear.activities.authentications.SsoActivity
+import com.example.carebear.models.User
+import com.example.carebear.services.UserService
 import com.example.carebear.ui.theme.CareBearTheme
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
+    private var userService: UserService = UserService.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -56,9 +60,20 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun checkIfLoggedIn() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
             val intent = Intent(this, HomeActivity::class.java)
             this.startActivity(intent)
+
+            if (currentUser.displayName != null && currentUser.email != null) {
+                userService.persistUser(
+                    User(
+                        currentUser.uid,
+                        currentUser.displayName.toString(),
+                        currentUser.email.toString()
+                    )
+                )
+            }
         }
     }
 }
