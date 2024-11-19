@@ -8,22 +8,35 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.carebear.activities.authentications.LoginActivity
+import com.example.carebear.activities.authentications.RegisterActivity
+import com.example.carebear.activities.authentications.SsoActivity
+import com.example.carebear.models.User
+import com.example.carebear.services.UserService
 import com.example.carebear.ui.theme.CareBearTheme
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
+    private var userService: UserService = UserService.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -47,9 +60,20 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun checkIfLoggedIn() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
             val intent = Intent(this, HomeActivity::class.java)
             this.startActivity(intent)
+
+            if (currentUser.displayName != null && currentUser.email != null) {
+                userService.persistUser(
+                    User(
+                        currentUser.uid,
+                        currentUser.displayName.toString(),
+                        currentUser.email.toString()
+                    )
+                )
+            }
         }
     }
 }
@@ -77,7 +101,11 @@ fun MainContent(modifier: Modifier = Modifier) {
                     val intent = Intent(context, RegisterActivity::class.java)
                     context.startActivity(intent)
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Error launching RegisterActivity: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Error launching RegisterActivity: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             },
             modifier = Modifier
@@ -87,16 +115,34 @@ fun MainContent(modifier: Modifier = Modifier) {
             Text(text = "Register")
         }
 
-        // Button to navigate to LoginActivity
         Button(
             onClick = {
-                // Start LoginActivity
-                val intent = Intent(context, LoginActivity::class.java) // Use context here
+                val intent = Intent(context, LoginActivity::class.java)
                 context.startActivity(intent)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Login")
+        }
+
+        // Google Authentication Button
+        Button(
+            onClick = {
+                val intent = Intent(context, SsoActivity::class.java)
+                context.startActivity(intent)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+        ) {
+            // Display the Google logo and text
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Sign in with Google",
+                    style = TextStyle(fontWeight = FontWeight.Bold)
+                )
+            }
         }
     }
 }

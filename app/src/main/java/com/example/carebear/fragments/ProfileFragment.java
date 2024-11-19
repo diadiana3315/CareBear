@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.carebear.R;
-import com.example.carebear.activities.ChangePasswordActivity;
-import com.example.carebear.activities.EditProfileActivity;
-import com.example.carebear.activities.LoginActivity;
-import com.example.carebear.activities.NotificationPreferencesActivity;
+import com.example.carebear.activities.settings.ChangePasswordActivity;
+import com.example.carebear.activities.settings.EditProfileActivity;
+import com.example.carebear.activities.MainActivity;
+import com.example.carebear.activities.settings.NotificationPreferencesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
@@ -104,7 +102,7 @@ public class ProfileFragment extends Fragment {
         editor.apply();
 
         // Navigate to LoginActivity (assuming this activity exists)
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clears the back stack
         startActivity(intent);
 

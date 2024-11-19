@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.carebear.R;
-import com.example.carebear.activities.GroupChatActivity;
+import com.example.carebear.activities.groups.GroupChatActivity;
 import java.util.List;
 
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewHolder> {

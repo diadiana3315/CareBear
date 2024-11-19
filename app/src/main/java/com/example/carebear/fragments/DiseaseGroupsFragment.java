@@ -1,6 +1,5 @@
 package com.example.carebear.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.carebear.R;
 import com.example.carebear.adapters.GroupsAdapter;
-import com.example.carebear.activities.GroupChatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 

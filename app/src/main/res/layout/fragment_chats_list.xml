@@ -1,12 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- RecyclerView to display all chats -->
+    <!-- Header TextView for "Chats" -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Chats"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- RecyclerView to display all chats, positioned below the header -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_chats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/tv_title"
         android:padding="8dp" />
+
+    <!-- Floating Action Button to add a new chat -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Add new chat"
+        android:src="@drawable/baseline_add_box_24" />
 </RelativeLayout>

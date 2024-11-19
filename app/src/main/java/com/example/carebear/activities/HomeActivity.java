@@ -13,6 +13,7 @@ import com.example.carebear.fragments.ChatsListFragment;
 import com.example.carebear.fragments.DiseaseGroupsFragment;
 import com.example.carebear.fragments.HomeFragment;
 import com.example.carebear.fragments.ProfileFragment;
+import com.example.carebear.fragments.FriendsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -49,6 +50,8 @@ public class HomeActivity extends AppCompatActivity {
                 selectedFragment = new ChatsListFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
+            } else if (item.getItemId() == R.id.nav_friends) {
+                selectedFragment = new FriendsFragment();
             }
 
             if (selectedFragment != null) {
