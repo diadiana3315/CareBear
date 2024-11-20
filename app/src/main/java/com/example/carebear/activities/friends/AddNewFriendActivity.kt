@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.adapters.SearchedUserAdapter
 import com.example.carebear.models.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -20,6 +21,7 @@ class AddNewFriendActivity : AppCompatActivity() {
     private val databaseUsers = mutableListOf<User>()
     private var searchedUserEmail = ""
     private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
 
     private lateinit var foundUsersView: RecyclerView
 
@@ -65,10 +67,13 @@ class AddNewFriendActivity : AppCompatActivity() {
         val usersRef = database.getReference("users")
         usersRef.orderByChild("email").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
                 databaseUsers.clear()
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(User::class.java)
-                    user?.let { databaseUsers.add(it) }
+                    if (user != null && user.id != loggedUserId) {
+                        user.let { databaseUsers.add(it) }
+                    }
                 }
                 filterUsersBySearchedEmail()
             }
@@ -88,12 +93,24 @@ class AddNewFriendActivity : AppCompatActivity() {
                 user
             )
         }
+
+        filterUsersWithAlreadyExistingFriendRequest(displayedUsers)
+    }
+
+    private fun filterUsersWithAlreadyExistingFriendRequest(users: List<User>) {
+        val displayedUsers = mutableListOf<User>()
+        users.forEach { user ->
+            if (!user.friendRequests.any { it.requesterId == loggedUserId }) displayedUsers.add(
+                user
+            )
+        }
+
         displayFoundUsers(displayedUsers)
     }
 
     private fun displayFoundUsers(users: List<User>) {
         foundUsersView.layoutManager = LinearLayoutManager(this)
-        val searchedUsersAdapter = SearchedUserAdapter(users) { user ->
+        val searchedUsersAdapter = SearchedUserAdapter(this, users) { user ->
             println("Fetched user: ${user.email}")
         }
         foundUsersView.adapter = searchedUsersAdapter

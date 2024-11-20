@@ -13,6 +13,7 @@ import com.example.carebear.R
 import com.example.carebear.activities.friends.AddNewFriendActivity
 import com.example.carebear.adapters.SearchedUserAdapter
 import com.example.carebear.models.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -46,10 +47,13 @@ class FriendsFragment : Fragment() {
         val usersRef = database.getReference("users")
         usersRef.orderByChild("email").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
                 val databaseUsers = mutableListOf<User>()
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(User::class.java)
-                    user?.let { databaseUsers.add(it) }
+                    if (user != null && user.id != loggedUserId) {
+                        user.let { databaseUsers.add(it) }
+                    }
                 }
                 displayFoundUsers(databaseUsers)
             }
@@ -63,8 +67,10 @@ class FriendsFragment : Fragment() {
     private fun displayFoundUsers(users: List<User>) {
         val foundUsersView: RecyclerView = rootView.findViewById(R.id.found_users_recycler_view)
         foundUsersView.layoutManager = LinearLayoutManager(requireContext())
-        val searchedUsersAdapter = SearchedUserAdapter(users) { user ->
-            println("Fetched user: ${user.email}")
+        val searchedUsersAdapter = context?.let {
+            SearchedUserAdapter(it, users) { user ->
+                println("Fetched user: ${user.email}")
+            }
         }
         foundUsersView.adapter = searchedUsersAdapter
     }
