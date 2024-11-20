@@ -10,14 +10,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Friends"
+        android:text="My Friends"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--  -->
+    <!-- Add New Friend Button -->
+    <Button
+        android:id="@+id/button_add_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:text="Add a New Friend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
     <!-- Search user divider line -->
     <View
         android:id="@+id/search_users_divider"
@@ -27,47 +37,7 @@
         android:background="#000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
-
-    <!-- INPUT: Search user by email -->
-    <EditText
-        android:id="@+id/input_search_user"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Enter user email"
-        android:inputType="textEmailAddress"
-        android:padding="8dp"
-        app:layout_constraintEnd_toStartOf="@id/button_search_user"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_users_divider" />
-
-    <!-- Search User Button -->
-    <Button
-        android:id="@+id/button_search_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:text="Search user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/input_search_user"
-        app:layout_constraintTop_toBottomOf="@id/search_users_divider" />
-
-    <!--  -->
-    <!-- Optional Text Label -->
-    <TextView
-        android:id="@+id/found_users_label_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="Below are the found users:"
-        android:textColor="#000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_search_user" />
+        app:layout_constraintTop_toBottomOf="@id/button_add_friend" />
 
     <!-- Found users RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -76,9 +46,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/found_users_label_text"
+        app:layout_constraintTop_toBottomOf="@id/search_users_divider"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,16 @@
 package com.example.carebear.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
+import com.example.carebear.activities.friends.AddNewFriendActivity
 import com.example.carebear.adapters.SearchedUserAdapter
 import com.example.carebear.models.User
 import com.google.firebase.database.DataSnapshot
@@ -18,8 +19,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class FriendsFragment : Fragment() {
-    private val databaseUsers = mutableListOf<User>()
-    private var searchedUserEmail = ""
     private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     private lateinit var rootView: View
@@ -33,11 +32,11 @@ class FriendsFragment : Fragment() {
 
         initFoundUsers()
 
-
         // Set an OnClickListener for the Search User Button
-        val buttonSearchUser: Button = rootView.findViewById(R.id.button_search_user)
-        buttonSearchUser.setOnClickListener {
-            filterUsersBySearchedEmail()
+        val buttonAddNewFriend: Button = rootView.findViewById(R.id.button_add_friend)
+        buttonAddNewFriend.setOnClickListener {
+            val intent = Intent(context, AddNewFriendActivity::class.java)
+            context?.startActivity(intent)
         }
 
         return rootView
@@ -47,30 +46,18 @@ class FriendsFragment : Fragment() {
         val usersRef = database.getReference("users")
         usersRef.orderByChild("email").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                databaseUsers.clear()
+                val databaseUsers = mutableListOf<User>()
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(User::class.java)
                     user?.let { databaseUsers.add(it) }
                 }
-                filterUsersBySearchedEmail()
+                displayFoundUsers(databaseUsers)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 println("Failed to read value: " + databaseError.toException())
             }
         })
-    }
-
-    private fun filterUsersBySearchedEmail() {
-        val inputSearchUser: EditText = rootView.findViewById(R.id.input_search_user)
-        searchedUserEmail = inputSearchUser.text.toString()
-        val displayedUsers = mutableListOf<User>()
-        databaseUsers.forEach { user ->
-            if (user.email.contains(searchedUserEmail)) displayedUsers.add(
-                user
-            )
-        }
-        displayFoundUsers(displayedUsers)
     }
 
     private fun displayFoundUsers(users: List<User>) {
