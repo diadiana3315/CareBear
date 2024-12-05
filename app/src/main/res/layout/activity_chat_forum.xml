@@ -1,44 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <!-- Group Name Display -->
-    <TextView
-        android:id="@+id/text_view_group_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <!-- Chat messages (temporary placeholder) -->
-    <TextView
-        android:id="@+id/text_view_chat_placeholder"
+    <!-- RecyclerView for messages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="Chat messages will appear here"
-        android:textSize="16sp" />
+        android:padding="8dp" />
 
-    <!-- Message input and send button -->
+    <!-- Input area for typing messages -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="8dp">
 
+        <!-- Attach media button -->
+        <Button
+            android:id="@+id/btn_attach_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attach Media" />
+
+        <!-- Text input for the message -->
         <EditText
             android:id="@+id/edit_text_message"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Type a message" />
+            android:hint="Type a message"
+            android:padding="8dp"
+            android:background="@android:drawable/edit_text" />
 
+        <!-- Send message button -->
         <Button
-            android:id="@+id/button_send"
+            android:id="@+id/btn_send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send" />
