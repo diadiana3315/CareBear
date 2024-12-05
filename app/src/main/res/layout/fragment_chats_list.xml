@@ -23,14 +23,16 @@
         android:layout_below="@id/tv_title"
         android:padding="8dp" />
 
-    <!-- Floating Action Button to add a new chat -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_chat"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:contentDescription="Add new chat"
+        app:fabSize="normal"
+        app:backgroundTint="@android:color/darker_gray"
         android:src="@drawable/baseline_add_box_24" />
+
 </RelativeLayout>
