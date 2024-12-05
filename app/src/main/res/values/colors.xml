@@ -8,6 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="dark_purple">#966B9D</color>
+    <color name="light_purple">#E1C6E1</color>
+    <color name="beige">#CBA66F</color>
+    <color name="yellow">#FFE140</color>
+    <color name="off_white">#F5EFCC</color>
+    <color name="light_grey">#6D675F</color>
+    <color name="dark_grey">#252525</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>

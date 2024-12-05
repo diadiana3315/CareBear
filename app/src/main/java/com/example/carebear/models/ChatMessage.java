@@ -13,4 +13,5 @@ public class ChatMessage {
     private String text;
     private boolean isSent;
     private long timestamp;
+
 }

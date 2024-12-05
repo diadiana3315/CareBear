@@ -4,16 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.carebear.R;
 import com.example.carebear.models.Announcement;
 
 import java.util.List;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapter.AnnouncementViewHolder> {
-
     private List<Announcement> announcements;
 
     public AnnouncementAdapter(List<Announcement> announcements) {
@@ -22,9 +19,9 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
 
     @Override
     public AnnouncementViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_announcement, parent, false);
-        return new AnnouncementViewHolder(itemView);
+        return new AnnouncementViewHolder(view);
     }
 
     @Override
@@ -41,13 +38,13 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
     }
 
     public static class AnnouncementViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleTextView, descriptionTextView, dateTextView;
+        TextView titleTextView, descriptionTextView, dateTextView;
 
-        public AnnouncementViewHolder(View view) {
-            super(view);
-            titleTextView = view.findViewById(R.id.title_text);
-            descriptionTextView = view.findViewById(R.id.description_text);
-            dateTextView = view.findViewById(R.id.date_text);
+        public AnnouncementViewHolder(View itemView) {
+            super(itemView);
+            titleTextView = itemView.findViewById(R.id.title_text);
+            descriptionTextView = itemView.findViewById(R.id.description_text);
+            dateTextView = itemView.findViewById(R.id.date_text);
         }
     }
 }
