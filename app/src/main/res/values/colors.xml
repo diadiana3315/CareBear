@@ -15,4 +15,16 @@
     <color name="off_white">#F5EFCC</color>
     <color name="light_grey">#6D675F</color>
     <color name="dark_grey">#252525</color>
+
+    <!-- Primary Colors -->
+    <color name="colorPrimary">#966B9D</color>
+    <color name="colorAccent">#FFE140</color> <!-- Accent color (yellow) -->
+    <color name="colorBackground1">#E1C6E1</color> <!-- Background color 1 -->
+    <color name="colorBackground2">#F5EFCC</color> <!-- Background color 2 -->
+
+    <!-- Secondary Colors -->
+    <color name="colorSecondary">#6D675F</color> <!-- Secondary color (dark gray) -->
+
+    <!-- Text Colors -->
+    <color name="colorText">#252525</color> <!-- Text color (black) -->
 </resources>

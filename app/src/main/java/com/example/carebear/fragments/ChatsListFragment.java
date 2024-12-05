@@ -17,6 +17,12 @@ import com.example.carebear.R;
 import com.example.carebear.adapters.ChatsListAdapter;
 import com.example.carebear.models.Chat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,7 @@ public class ChatsListFragment extends Fragment {
     private RecyclerView recyclerView;
     private ChatsListAdapter chatsListAdapter;
     private List<Chat> chats;
+    private FirebaseAuth auth;
 
     public ChatsListFragment() {
         // Required empty public constructor
@@ -51,9 +58,9 @@ public class ChatsListFragment extends Fragment {
 
         // Initialize the list of chats (you can replace this with a backend call)
         chats = new ArrayList<>();
-        chats.add(new Chat("John Doe", "Hey! How are you?", System.currentTimeMillis()));
-        chats.add(new Chat("Jane Smith", "Can we meet later?", System.currentTimeMillis()));
-        chats.add(new Chat("Mike Johnson", "Let's catch up soon.", System.currentTimeMillis()));
+
+        // Initialize FirebaseAuth
+        auth = FirebaseAuth.getInstance();
 
         // Set the adapter for RecyclerView
         chatsListAdapter = new ChatsListAdapter(chats, position -> {
@@ -72,6 +79,8 @@ public class ChatsListFragment extends Fragment {
                     .addToBackStack(null)  // This ensures the fragment is added to the back stack
                     .commit();
         });
+
+        fetchChats();
 
         return rootView;
     }
@@ -92,4 +101,27 @@ public class ChatsListFragment extends Fragment {
                 .commit();
     }
 
+    private void fetchChats() {
+        DatabaseReference userChatsRef = FirebaseDatabase.getInstance().getReference("user_chats")
+                .child(auth.getCurrentUser().getUid());
+
+        userChatsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                chats.clear();
+                for (DataSnapshot chatSnapshot : snapshot.getChildren()) {
+                    String chatId = chatSnapshot.getKey();
+                    String lastMessage = chatSnapshot.child("last_message").getValue(String.class);
+                    long timestamp = chatSnapshot.child("timestamp").getValue(Long.class);
+                    chats.add(new Chat(chatId, lastMessage, timestamp));
+                }
+                chatsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to fetch chats.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.CareBear" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme.CareBear" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Primary and accent colors -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryVariant">@color/colorSecondary</item>
+    <item name="colorAccent">@color/colorAccent</item>
+
+    <!-- Background colors -->
+    <item name="android:windowBackground">@color/colorBackground1</item>
+
+    <!-- Text colors -->
+    <item name="android:textColor">@color/colorText</item>
+
+    <!-- Customize ActionBar, StatusBar, and NavigationBar -->
+    <item name="android:statusBarColor">@color/colorPrimary</item>
+    <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
 </resources>

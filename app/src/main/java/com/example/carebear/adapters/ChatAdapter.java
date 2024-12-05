@@ -23,6 +23,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
         notifyItemInserted(messages.size() - 1);
     }
 
+    public void setMessages(List<ChatMessage> newMessages) {
+        messages.clear();
+        messages.addAll(newMessages);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
