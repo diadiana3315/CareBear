@@ -32,8 +32,11 @@ class SearchedUserAdapter(private val context: Context, private val userList: Li
         holder.textEmail.text = user.email
         holder.buttonAction.setOnClickListener {
             val senderId = FirebaseAuth.getInstance().currentUser?.uid
+            val senderEmail = FirebaseAuth.getInstance().currentUser?.email
             if (senderId != null) {
-                holder.userService.sendFriendRequest(context, senderId, user.id)
+                if (senderEmail != null) {
+                    holder.userService.sendFriendRequest(context, senderId, user.id, senderEmail)
+                }
             } else {
                 Toast.makeText(context, "Friend request failed", Toast.LENGTH_SHORT).show()
             }

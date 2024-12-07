@@ -5,11 +5,8 @@ import android.widget.Toast
 import com.example.carebear.models.FriendRequest
 import com.example.carebear.models.RequestStatus
 import com.example.carebear.models.User
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.firestore
 
 class UserService private constructor() {
     private var database = FirebaseDatabase.getInstance()
@@ -82,8 +79,8 @@ class UserService private constructor() {
         }
     }
 
-    fun sendFriendRequest(context: Context, senderId: String, receiverId: String) {
-        val friendRequest = FriendRequest(requesterId = senderId, status = RequestStatus.PENDING)
+    fun sendFriendRequest(context: Context, senderId: String, receiverId: String, senderEmail: String) {
+        val friendRequest = FriendRequest(requesterId = senderId, status = RequestStatus.PENDING, requesterEmail = senderEmail)
         val usersRef = database.getReference("users")
         usersRef.child(receiverId).get().addOnCompleteListener { task ->
             task.result.getValue(User::class.java)?.let { receiver ->

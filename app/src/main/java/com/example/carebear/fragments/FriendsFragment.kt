@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.activities.friends.AddNewFriendActivity
+import com.example.carebear.activities.friends.FriendRequestsActivity
 import com.example.carebear.adapters.SearchedUserAdapter
 import com.example.carebear.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +39,13 @@ class FriendsFragment : Fragment() {
         val buttonAddNewFriend: Button = rootView.findViewById(R.id.button_add_friend)
         buttonAddNewFriend.setOnClickListener {
             val intent = Intent(context, AddNewFriendActivity::class.java)
+            context?.startActivity(intent)
+        }
+
+        // Set an OnClickListener for the Notification Bell Button
+        val notificationButton: ImageButton = rootView.findViewById(R.id.notification_button)
+        notificationButton.setOnClickListener {
+            val intent = Intent(context, FriendRequestsActivity::class.java)
             context?.startActivity(intent)
         }
 
