@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.activities.friends.AddNewFriendActivity
 import com.example.carebear.activities.friends.FriendRequestsActivity
+import com.example.carebear.adapters.FriendAdapter
+import com.example.carebear.adapters.FriendRequestAdapter
 import com.example.carebear.adapters.SearchedUserAdapter
-import com.example.carebear.models.User
+import com.example.carebear.models.Friend
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener
 
 class FriendsFragment : Fragment() {
     private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
 
     private lateinit var rootView: View
 
@@ -33,7 +36,7 @@ class FriendsFragment : Fragment() {
     ): View {
         rootView = inflater.inflate(R.layout.fragment_users, container, false)
 
-        initFoundUsers()
+        initFriends()
 
         // Set an OnClickListener for the Search User Button
         val buttonAddNewFriend: Button = rootView.findViewById(R.id.button_add_friend)
@@ -52,19 +55,22 @@ class FriendsFragment : Fragment() {
         return rootView
     }
 
-    private fun initFoundUsers() {
-        val usersRef = database.getReference("users")
-        usersRef.orderByChild("email").addValueEventListener(object : ValueEventListener {
+    private fun initFriends() {
+        val friends = mutableListOf<Friend>()
+        val friendsRef = database.getReference("users").child(loggedUserId!!).child("friends")
+        friendsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
-                val databaseUsers = mutableListOf<User>()
+                friends.clear()
                 for (userSnapshot in dataSnapshot.children) {
-                    val user = userSnapshot.getValue(User::class.java)
-                    if (user != null && user.id != loggedUserId) {
-                        user.let { databaseUsers.add(it) }
+                    val friend = userSnapshot.getValue(Friend::class.java)
+                    friend.let {
+                        if (it != null) {
+                            friends.add(it)
+                        }
                     }
                 }
-                displayFoundUsers(databaseUsers)
+
+                displayFriends(friends)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -73,14 +79,10 @@ class FriendsFragment : Fragment() {
         })
     }
 
-    private fun displayFoundUsers(users: List<User>) {
-        val foundUsersView: RecyclerView = rootView.findViewById(R.id.found_users_recycler_view)
-        foundUsersView.layoutManager = LinearLayoutManager(requireContext())
-        val searchedUsersAdapter = context?.let {
-            SearchedUserAdapter(it, users) { user ->
-                println("Fetched user: ${user.email}")
-            }
-        }
-        foundUsersView.adapter = searchedUsersAdapter
+    private fun displayFriends(friends: List<Friend>) {
+        val friendsView: RecyclerView = rootView.findViewById(R.id.friends_recycler_view)
+        friendsView.layoutManager = LinearLayoutManager(requireContext())
+        val friendsAdapter = FriendAdapter(this.requireContext(), friends)
+        friendsView.adapter = friendsAdapter
     }
 }

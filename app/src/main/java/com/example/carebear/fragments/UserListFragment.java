@@ -40,9 +40,9 @@ public class UserListFragment extends Fragment {
 
         // Initialize the list of users (replace this with data from your backend)
         users = new ArrayList<>();
-        users.add(new User("1", "John Doe", "john_doe@example.com", emptyList(), emptyList()));
-        users.add(new User("2", "Jane Smith", "jane_smith@example.com", emptyList(), emptyList()));
-        users.add(new User("3", "Mike Johnson", "mike_johnson@example.com", emptyList(), emptyList()));
+        users.add(new User("1", "John Doe", "john_doe@example.com", emptyList(), emptyList(), emptyList()));
+        users.add(new User("2", "Jane Smith", "jane_smith@example.com", emptyList(), emptyList(), emptyList()));
+        users.add(new User("3", "Mike Johnson", "mike_johnson@example.com", emptyList(), emptyList(), emptyList()));
 
         // Set the adapter for RecyclerView
         userListAdapter = new UserListAdapter(users, position -> {

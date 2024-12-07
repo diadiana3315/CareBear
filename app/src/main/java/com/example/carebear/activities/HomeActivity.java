@@ -30,15 +30,15 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_frame, new FriendsFragment())
+                        .replace(R.id.content_frame, new HomeFragment())
                         .commit();
-                bottomNavigationView.setSelectedItemId(R.id.nav_friends);
+                bottomNavigationView.setSelectedItemId(R.id.nav_home);
             } catch (Exception e) {
                 Log.e(TAG, "Error loading HomeFragment", e);
             }
         }
 
-        // Handle navigation item selections using if-else statements
+        // Handle navigation item_friend.xml selections using if-else statements
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 

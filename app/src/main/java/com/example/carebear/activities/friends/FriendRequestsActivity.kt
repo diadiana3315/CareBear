@@ -54,14 +54,14 @@ class FriendRequestsActivity : AppCompatActivity() {
                         }
                     }
                 }
+
+                displayFriendRequests(friendRequests)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 println("Failed to read value: " + databaseError.toException())
             }
         })
-
-        displayFriendRequests(friendRequests)
     }
 
     private fun displayFriendRequests(friendRequests: List<FriendRequest>) {
