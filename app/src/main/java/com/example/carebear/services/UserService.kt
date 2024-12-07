@@ -98,6 +98,18 @@ class UserService private constructor() {
         }
     }
 
+    fun deleteFriend(context: Context, friendId: String) {
+        val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
+        if (loggedUserId == null) {
+            Toast.makeText(context, "Friend request deny", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        deleteFriend(loggedUserId, friendId)
+        deleteFriend(friendId, loggedUserId)
+        Toast.makeText(context, "Friend deleted successfully!", Toast.LENGTH_SHORT).show()
+    }
+
     fun denyFriendRequest(context: Context, friendId: String) {
         val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
         if (loggedUserId == null) {
@@ -132,6 +144,19 @@ class UserService private constructor() {
 
                 persistUser(targetUser)
                 removeFriendRequest(friendId, targetUserId)
+            }
+        }
+    }
+
+    private fun deleteFriend(targetUserId: String, friendId: String) {
+        val usersRef = database.getReference("users")
+        usersRef.child(targetUserId).get().addOnCompleteListener { task ->
+            task.result.getValue(User::class.java)?.let { targetUser ->
+                val friends = ArrayList(targetUser.friends)
+                    .filter { it.friendId != friendId }
+                targetUser.friends = friends
+
+                persistUser(targetUser)
             }
         }
     }
