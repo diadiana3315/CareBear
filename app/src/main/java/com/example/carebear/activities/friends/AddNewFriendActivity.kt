@@ -100,9 +100,12 @@ class AddNewFriendActivity : AppCompatActivity() {
     private fun filterUsersWithAlreadyExistingFriendRequest(users: List<User>) {
         val displayedUsers = mutableListOf<User>()
         users.forEach { user ->
-            if (!user.friendRequests.any { it.requesterId == loggedUserId }) displayedUsers.add(
-                user
-            )
+            if (
+                !user.friendRequests.any { it.requesterId == loggedUserId } &&
+                !user.friends.any { it.friendId == loggedUserId }
+                ) {
+                displayedUsers.add(user)
+            }
         }
 
         displayFoundUsers(displayedUsers)
