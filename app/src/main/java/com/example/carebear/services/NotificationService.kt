@@ -3,13 +3,17 @@ package com.example.carebear.services
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.carebear.R
+import com.example.carebear.activities.friends.FriendRequestsActivity
 import com.example.carebear.models.FriendRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -37,7 +41,7 @@ class NotificationService private constructor() {
         }
     }
 
-    fun sendNotification(context: Context, title: String, message: String) {
+    fun sendNotification(context: Context, title: String, message: String, pendingIntent: PendingIntent) {
         // Check permissions for Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(
@@ -60,6 +64,8 @@ class NotificationService private constructor() {
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent) // Set the PendingIntent
+            .setAutoCancel(true)
 
         val notificationManager = context.getSystemService(NotificationManager::class.java)
 
@@ -79,6 +85,22 @@ class NotificationService private constructor() {
     }
 
     fun initFriendRequestsNotifications(context: Context) {
+        // Create an Intent to redirect the user to a specific Activity
+        val intent = Intent(context, FriendRequestsActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        // Add extra data if needed
+        intent.putExtra("EXTRA_KEY", "SomeValue")
+
+        // Create a PendingIntent
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0, // Request code
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val friendRequestsRef =
             database.getReference("users").child(loggedUserId!!).child("friendRequests")
         friendRequestsRef.addValueEventListener(object : ValueEventListener {
@@ -90,7 +112,8 @@ class NotificationService private constructor() {
                             sendNotification(
                                 context,
                                 "New Friend Request",
-                                "You have a new friend request from" + it.requesterEmail
+                                "You have a new friend request from" + it.requesterEmail,
+                                pendingIntent
                             )
                         }
                     }
