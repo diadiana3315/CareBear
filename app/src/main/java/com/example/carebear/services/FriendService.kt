@@ -6,14 +6,8 @@ class FriendService private constructor() {
     private var database = FirebaseDatabase.getInstance()
 
     companion object {
-        @Volatile
-
-
-
-
-
-
-        private var instance: FriendService? = null
+    @Volatile
+    private var instance: FriendService? = null
 
         fun getInstance(): FriendService {
             return instance ?: synchronized(this) {
