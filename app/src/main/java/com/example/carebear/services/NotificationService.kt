@@ -10,13 +10,18 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.carebear.R
+import com.example.carebear.models.FriendRequest
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.Random
 import java.util.UUID
 
 class NotificationService private constructor() {
     private var database = FirebaseDatabase.getInstance()
-    lateinit var notificationManager: NotificationManager
+    private val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
 
     companion object {
         @Volatile
@@ -71,6 +76,31 @@ class NotificationService private constructor() {
 
         // Show Notification
         notificationManager?.notify(Random().nextInt(1000000000), builder.build())
+    }
+
+    fun initFriendRequestsNotifications(context: Context) {
+        val friendRequestsRef =
+            database.getReference("users").child(loggedUserId!!).child("friendRequests")
+        friendRequestsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val friendRequest = userSnapshot.getValue(FriendRequest::class.java)
+                    friendRequest.let {
+                        if (it != null) {
+                            sendNotification(
+                                context,
+                                "New Friend Request",
+                                "You have a new friend request from" + it.requesterEmail
+                            )
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("Failed to read value: " + databaseError.toException())
+            }
+        })
     }
 
     private fun generateRandomId(): String {
