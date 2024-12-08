@@ -64,7 +64,7 @@ public class ChatsListFragment extends Fragment {
 
         // Set the adapter for RecyclerView
         chatsListAdapter = new ChatsListAdapter(chats, position -> {
-            // Navigate to the chat screen when a chat item is clicked
+            // Navigate to the chat screen when a chat item_friend.xml is clicked
             Chat selectedChat = chats.get(position);
             openChatFragment(selectedChat);
         });

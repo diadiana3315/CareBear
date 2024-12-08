@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
+    <style name="ThemeOverlay.CareBear.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
     <style name="Theme.CareBear" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Primary and accent colors -->
     <item name="colorPrimary">@color/colorPrimary</item>
