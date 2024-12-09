@@ -1,11 +1,16 @@
 package com.example.carebear.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,20 +31,27 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import com.example.carebear.activities.authentications.LoginActivity
 import com.example.carebear.activities.authentications.RegisterActivity
 import com.example.carebear.activities.authentications.SsoActivity
 import com.example.carebear.models.User
+import com.example.carebear.services.NotificationService
 import com.example.carebear.services.UserService
 import com.example.carebear.ui.theme.CareBearTheme
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     private var userService: UserService = UserService.getInstance()
+    private var notificationService: NotificationService = NotificationService.getInstance()
+    private val activityResultLauncher: ActivityResultLauncher<String> = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        initialiseNotifications()
+        notificationService.initFriendRequestsNotifications(this)
 
         checkIfLoggedIn()
 
@@ -74,6 +86,18 @@ class MainActivity : ComponentActivity() {
                     )
                 )
             }
+        }
+    }
+
+    private fun initialiseNotifications() {
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            activityResultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 }
