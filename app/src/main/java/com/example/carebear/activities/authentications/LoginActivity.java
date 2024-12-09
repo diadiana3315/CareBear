@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
-                        userService.persistUser(user);
+                        userService.persistUserIfNotPersisted(user);
                     }
 
                     if (task.isSuccessful()) {

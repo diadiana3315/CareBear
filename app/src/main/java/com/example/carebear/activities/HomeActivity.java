@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        // Handle navigation item selections using if-else statements
+        // Handle navigation item_friend.xml selections using if-else statements
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 

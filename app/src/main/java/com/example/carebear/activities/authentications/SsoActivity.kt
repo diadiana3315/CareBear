@@ -75,7 +75,7 @@ class SsoActivity : AppCompatActivity() {
                     // Sign-in successful
                     val user = firebaseAuth.currentUser
                     if (user != null) {
-                        userService.persistUser(user)
+                        userService.persistUserIfNotPersisted(user)
                     }
                     Log.d("GoogleSignIn", "SignIn successful: ${user?.displayName}")
                     Toast.makeText(this, "Sign-in successful", Toast.LENGTH_SHORT).show()

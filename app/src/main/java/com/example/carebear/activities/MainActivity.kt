@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
             this.startActivity(intent)
 
             if (currentUser.displayName != null && currentUser.email != null) {
-                userService.persistUser(
+                userService.persistUserIfNotPersisted(
                     User(
                         currentUser.uid,
                         currentUser.displayName.toString(),

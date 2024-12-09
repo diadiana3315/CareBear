@@ -15,6 +15,15 @@
         android:theme="@style/Theme.CareBear"
         tools:targetApi="31" >
         <activity
+            android:name=".activities.friends.FriendRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.friends.notification_buttonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.friends.AddNewFriendActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.authentications.SsoActivity"
             android:exported="false" />
         <activity

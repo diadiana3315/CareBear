@@ -11,8 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carebear.R;
-import com.example.carebear.adapters.UserListAdapter;
-import com.example.carebear.models.User;
+import com.example.carebear.adapters.FriendAdapter;
+import com.example.carebear.models.Friend;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +27,11 @@ import java.util.List;
 public class UserListFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private UserListAdapter userListAdapter;
-    private List<User> users;
+    private FriendAdapter friendAdapter;
+    private List<Friend> friendsList;
+
+    private FirebaseDatabase database;
+    private String loggedUserId;
 
     public UserListFragment() {
         // Required empty public constructor
@@ -36,19 +46,15 @@ public class UserListFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycler_view_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Initialize the list of users (replace this with data from your backend)
-        users = new ArrayList<>();
-        users.add(new User("1", "John Doe", "john_doe@example.com"));
-        users.add(new User("2", "Jane Smith", "jane_smith@example.com"));
-        users.add(new User("3", "Mike Johnson", "mike_johnson@example.com"));
+        // Get the logged user ID
+        loggedUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        database = FirebaseDatabase.getInstance();
 
-        // Set the adapter for RecyclerView
-        userListAdapter = new UserListAdapter(users, position -> {
-            // Handle user selection and start a new chat
-            User selectedUser = users.get(position);
-            startNewChat(selectedUser);
-        });
-        recyclerView.setAdapter(userListAdapter);
+        // Initialize the list of friends
+        friendsList = new ArrayList<>();
+
+        // Load the list of friends from Firebase
+        loadFriendsList();
 
         // Set up the close button (X button)
         ImageButton closeButton = rootView.findViewById(R.id.btn_close_user_list);
@@ -62,18 +68,29 @@ public class UserListFragment extends Fragment {
         return rootView;
     }
 
-    private void startNewChat(User user) {
-        // Logic to start a new chat with the selected user
-        ChatsFragment chatsFragment = new ChatsFragment();
-        Bundle args = new Bundle();
-        args.putString("chat_name", user.getName());
-        args.putString("user_email", user.getEmail());
-        chatsFragment.setArguments(args);
+    private void loadFriendsList() {
+        DatabaseReference friendsRef = database.getReference("users").child(loggedUserId).child("friends");
 
-        // Perform the fragment transaction to open the chat
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, chatsFragment)
-                .addToBackStack(null) // Allows the user to go back to the UserListFragment
-                .commit();
+        friendsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                friendsList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Friend friend = snapshot.getValue(Friend.class);
+                    if (friend != null) {
+                        friendsList.add(friend);
+                    }
+                }
+
+                // Once the data is loaded, set the adapter to display the friends
+                friendAdapter = new FriendAdapter(getContext(), friendsList);
+                recyclerView.setAdapter(friendAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle database error if needed
+            }
+        });
     }
 }

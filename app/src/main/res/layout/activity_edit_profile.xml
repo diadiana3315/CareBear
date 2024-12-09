@@ -2,7 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="Change Picture" />
+            android:text="Change Picture"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
 
         <!-- Username Edit -->
         <EditText
@@ -39,6 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Save Changes" />
+            android:text="Save Changes"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 </ScrollView>
