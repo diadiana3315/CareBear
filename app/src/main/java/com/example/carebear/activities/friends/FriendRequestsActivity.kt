@@ -42,7 +42,8 @@ class FriendRequestsActivity : AppCompatActivity() {
     }
 
     private fun initFriendRequests() {
-        val friendRequestsRef = database.getReference("users").child(loggedUserId!!).child("friendRequests")
+        val friendRequestsRef =
+            database.getReference("users").child(loggedUserId!!).child("friendRequests")
         friendRequestsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 friendRequests.clear()
@@ -66,9 +67,7 @@ class FriendRequestsActivity : AppCompatActivity() {
 
     private fun displayFriendRequests(friendRequests: List<FriendRequest>) {
         friendRequestsView.layoutManager = LinearLayoutManager(this)
-        val friendRequestsAdapter = FriendRequestAdapter(this, friendRequests) { friendRequest ->
-            println("Fetched user: ${friendRequest.requesterId}")
-        }
+        val friendRequestsAdapter = FriendRequestAdapter(this, friendRequests)
         friendRequestsView.adapter = friendRequestsAdapter
     }
 }
