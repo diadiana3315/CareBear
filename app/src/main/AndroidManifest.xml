@@ -17,9 +17,9 @@
         <activity
             android:name=".activities.friends.FriendRequestsActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.friends.notification_buttonActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activities.friends.notification_buttonActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".activities.friends.AddNewFriendActivity"
             android:exported="false" />

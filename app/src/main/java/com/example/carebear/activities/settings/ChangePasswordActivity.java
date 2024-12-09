@@ -7,8 +7,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.carebear.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -18,10 +24,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private Button btnChangePassword;
     private TextView tvChangePasswordMessage;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Initialize UI components
         etCurrentPassword = findViewById(R.id.et_current_password);
@@ -62,16 +73,44 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: Add code to verify current password and change to new password
-        // This is where you would typically call a backend service to change the password.
+        // Get the currently authenticated user
+        FirebaseUser user = mAuth.getCurrentUser();
 
-        // For now, we can just show a success message
-        showMessage("Password changed successfully!");
+        if (user != null) {
+            // Reauthenticate the user with their email and current password
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
 
-        // Clear input fields
-        etCurrentPassword.setText("");
-        etNewPassword.setText("");
-        etConfirmNewPassword.setText("");
+            // Reauthenticate the user
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Successfully reauthenticated, now update the password
+                            updatePassword(newPassword);
+                        } else {
+                            showMessage("Current password is incorrect.");
+                        }
+                    })
+                    .addOnFailureListener(e -> showMessage("Reauthentication failed: " + e.getMessage()));
+        } else {
+            showMessage("User not authenticated.");
+        }
+    }
+
+    private void updatePassword(String newPassword) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            // Update the password
+            user.updatePassword(newPassword)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            showMessage("Password changed successfully!");
+                        } else {
+                            showMessage("Failed to change password.");
+                        }
+                    })
+                    .addOnFailureListener(e -> showMessage("Error: " + e.getMessage()));
+        }
     }
 
     private void showMessage(String message) {
