@@ -113,9 +113,7 @@ class AddNewFriendActivity : AppCompatActivity() {
 
     private fun displayFoundUsers(users: List<User>) {
         foundUsersView.layoutManager = LinearLayoutManager(this)
-        val searchedUsersAdapter = SearchedUserAdapter(this, users) { user ->
-            println("Fetched user: ${user.email}")
-        }
+        val searchedUsersAdapter = SearchedUserAdapter(this, users)
         foundUsersView.adapter = searchedUsersAdapter
     }
 }
