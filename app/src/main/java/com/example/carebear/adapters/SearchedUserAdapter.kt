@@ -10,16 +10,16 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.models.User
-import com.example.carebear.services.UserService
+import com.example.carebear.services.FriendService
 import com.google.firebase.auth.FirebaseAuth
 
-class SearchedUserAdapter(private val context: Context, private val userList: List<User>, private val onActionClick: (User) -> Unit) :
+class SearchedUserAdapter(private val context: Context, private val userList: List<User>) :
     RecyclerView.Adapter<SearchedUserAdapter.UserViewHolder>() {
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textEmail: TextView = itemView.findViewById(R.id.text_email)
         val buttonAction: Button = itemView.findViewById(R.id.button_action)
-        val userService = UserService.getInstance()
+        val friendService: FriendService = FriendService.getInstance()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -35,7 +35,7 @@ class SearchedUserAdapter(private val context: Context, private val userList: Li
             val senderEmail = FirebaseAuth.getInstance().currentUser?.email
             if (senderId != null) {
                 if (senderEmail != null) {
-                    holder.userService.sendFriendRequest(context, senderId, user.id, senderEmail)
+                    holder.friendService.sendFriendRequest(context, senderId, user.id, senderEmail)
                 }
             } else {
                 Toast.makeText(context, "Friend request failed", Toast.LENGTH_SHORT).show()

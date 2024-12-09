@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.adapters.FriendRequestAdapter
 import com.example.carebear.models.FriendRequest
-import com.example.carebear.services.NotificationService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -68,9 +67,7 @@ class FriendRequestsActivity : AppCompatActivity() {
 
     private fun displayFriendRequests(friendRequests: List<FriendRequest>) {
         friendRequestsView.layoutManager = LinearLayoutManager(this)
-        val friendRequestsAdapter = FriendRequestAdapter(this, friendRequests) { friendRequest ->
-            println("Fetched user: ${friendRequest.requesterId}")
-        }
+        val friendRequestsAdapter = FriendRequestAdapter(this, friendRequests)
         friendRequestsView.adapter = friendRequestsAdapter
     }
 }
