@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.carebear.R;
 import com.example.carebear.adapters.GroupsAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
