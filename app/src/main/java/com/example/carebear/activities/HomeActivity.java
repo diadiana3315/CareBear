@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.carebear.R;
-import com.example.carebear.fragments.ChatsListFragment;
+import com.example.carebear.fragments.ChatsFragment;
 import com.example.carebear.fragments.DiseaseGroupsFragment;
 import com.example.carebear.fragments.HomeFragment;
 import com.example.carebear.fragments.ProfileFragment;
@@ -30,9 +30,9 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_frame, new HomeFragment())
+                        .replace(R.id.content_frame, new ChatsFragment())
                         .commit();
-                bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                bottomNavigationView.setSelectedItemId(R.id.nav_chats);
             } catch (Exception e) {
                 Log.e(TAG, "Error loading HomeFragment", e);
             }
@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_groups) {
                 selectedFragment = new DiseaseGroupsFragment();
             } else if (item.getItemId() == R.id.nav_chats) {
-                selectedFragment = new ChatsListFragment();
+                selectedFragment = new ChatsFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
             } else if (item.getItemId() == R.id.nav_friends) {

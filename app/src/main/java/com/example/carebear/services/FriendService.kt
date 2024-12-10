@@ -45,8 +45,6 @@ class FriendService private constructor() {
         }
     }
 
-
-
     fun deleteFriend(context: Context, friendId: String) {
         val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
         if (loggedUserId == null) {
