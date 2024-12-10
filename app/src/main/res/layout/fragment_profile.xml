@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".fragments.ProfileFragment">
 
-
-<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="0dp"> <!-- Removed padding here for wider cards -->
 
-
-        <LinearLayout
+        <!-- Profile Info Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_marginTop="8dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="10dp">
 
-            <ImageView
-                    android:id="@+id/profile_picture"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Profile picture" />
-
-            <!-- Username and Bio -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/tv_username"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:textColor="@color/dark_grey"
+                    android:textStyle="bold"
                     android:text="Username"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:paddingBottom="8dp" />
 
                 <TextView
                     android:id="@+id/tv_bio"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/light_grey"
                     android:text="This is the user's bio."
-                    android:textSize="14sp" />
+                    android:layout_marginTop="4dp" />
             </LinearLayout>
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
+        <!-- Buttons for Profile and Password -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:weightSum="2">
 
             <Button
                 android:id="@+id/btn_edit_profile"
@@ -62,7 +64,8 @@
                 android:layout_weight="1"
                 android:text="Edit Profile"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp" /> <!-- Added marginEnd for spacing -->
 
             <Button
                 android:id="@+id/btn_change_password"
@@ -71,7 +74,7 @@
                 android:layout_weight="1"
                 android:text="Change Password"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <!-- Health Information Section -->
@@ -80,51 +83,111 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Health Information"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/et_medical_conditions"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:hint="Medical Conditions"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/et_medications"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:hint="Medications"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/et_allergies"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:hint="Allergies"
-            android:inputType="text" />
-
-        <!-- Settings and Customization -->
-        <Button
-            android:id="@+id/btn_notification_preferences"
+        <!-- Medical Conditions Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Notification Preferences"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"/>
+            android:layout_marginTop="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medical Conditions"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_medical_conditions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="None"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Medications Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medications"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_medications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="None"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Allergies Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Allergies"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_allergies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="None"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Logout Button -->
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Logout"
             android:textColor="@color/red"
-            android:backgroundTint="@color/light_grey"
-        />
+            android:backgroundTint="@color/light_grey" />
+
     </LinearLayout>
 </ScrollView>
