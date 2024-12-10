@@ -31,7 +31,7 @@ class ChatAdapter (private val context: Context, private val chats: List<Chat>) 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chats[position]
 
-        holder.textName.text = chat.name
+        holder.textName.text = chat.recipientName
         holder.lastMessage.text = chat.lastMessage
         val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")
         val formattedDate = chat.timestamp.format(formatter)

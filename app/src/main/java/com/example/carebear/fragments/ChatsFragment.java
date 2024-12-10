@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -66,21 +65,21 @@ public class ChatsFragment extends Fragment {
     }
 
     private void initChatIds() {
-        final List<String> chatIds = new ArrayList<>();
+        final List<Chat> chats = new ArrayList<>();
 
         final DatabaseReference userChatsRef = database.getReference("users").child(loggedUserId).child("chats");
         userChatsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chatIds.clear();
-                snapshot.getChildren().forEach(chatIdSnapshot  -> {
-                    String chatId = chatIdSnapshot.getValue(String.class);
-                    if (chatId != null) {
-                        chatIds.add(chatId);
+                chats.clear();
+                snapshot.getChildren().forEach(chatSnapshot  -> {
+                    Chat chat = chatSnapshot.getValue(Chat.class);
+                    if (chat != null) {
+                        chats.add(chat);
                     }
                 });
 
-                initChats(chatIds);
+                initChats(chats);
             }
 
             @Override
@@ -90,8 +89,7 @@ public class ChatsFragment extends Fragment {
         });
     }
 
-    private void initChats(List<String> chatIds) {
-        final List<Chat> chats = new ArrayList<>();
+    private void initChats(List<Chat> chats) {
     }
 
     private void displayChats(List<Chat> chats) {
