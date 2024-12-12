@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 
 class Chat {
     var chatId: String = ""
-    var recipientId: String = ""
-    var recipientName: String = ""
-    var lastMessage: String = ""
+    var chatMembers: List<BaseUser> = listOf()
+    var isGroupChat: Boolean = false
+    var lastMessage: String = "Send the first message"
     @RequiresApi(Build.VERSION_CODES.O)
-    var timestamp: String = LocalDateTime.now().toString()
+    var lastMessageTimestamp: String = LocalDateTime.now().toString()
+    var messages: List<ChatMessage> = listOf()
 }
-

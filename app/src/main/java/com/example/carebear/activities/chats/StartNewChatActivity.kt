@@ -43,6 +43,7 @@ class StartNewChatActivity : AppCompatActivity() {
                 friends.clear()
                 val user = dataSnapshot.getValue(User::class.java)
                 user?.friends?.forEach { friend -> friend.let {
+                    if (user.chats.none{ chat -> chat.recipientId == friend.friendId })
                     friends.add(it)
                 } }
 

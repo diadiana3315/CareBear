@@ -2,7 +2,7 @@ package com.example.carebear.services
 
 import android.content.Context
 import android.widget.Toast
-import com.example.carebear.models.Chat
+import com.example.carebear.models.ChatMembership
 import com.example.carebear.models.Friend
 import com.example.carebear.models.FriendRequest
 import com.example.carebear.models.RequestStatus
@@ -80,7 +80,7 @@ class FriendService private constructor() {
         addFriendTo(friendId, loggedUserId, loggedUserEmail)
     }
 
-    fun startChat(context: Context, userIdToStartChatWith: String, userEmailToStartChatWith: String) {
+    fun startChat(context: Context, chatId: String, userIdToStartChatWith: String, userEmailToStartChatWith: String) {
         val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
         val loggedUserEmail = FirebaseAuth.getInstance().currentUser?.email
         if (loggedUserId == null || loggedUserEmail == null) {
@@ -88,23 +88,22 @@ class FriendService private constructor() {
             return
         }
 
-        val chatId = UUID.randomUUID().toString()
         startChat(chatId, loggedUserId, userIdToStartChatWith, userEmailToStartChatWith)
         startChat(chatId, userIdToStartChatWith, loggedUserId, loggedUserEmail)
     }
 
     private fun startChat(chatId: String, targetUserId: String, userIdToStartChatWith: String, userNameToStartChatWith: String) {
-        val chat = Chat()
-        chat.chatId = chatId
-        chat.recipientId = userIdToStartChatWith
-        chat.recipientName = userNameToStartChatWith
-        chat.lastMessage = "Send the first message"
+        val chatMembership = ChatMembership()
+        chatMembership.chatId = chatId
+        chatMembership.recipientId = userIdToStartChatWith
+        chatMembership.recipientName = userNameToStartChatWith
+        chatMembership.lastMessage = "Send the first message"
         val usersRef = database.getReference("users")
         usersRef.child(targetUserId).get().addOnCompleteListener { task ->
             task.result.getValue(User::class.java)?.let { targetUser ->
                 val chats = ArrayList(targetUser.chats)
                 if (!chats.any { it.recipientId == userIdToStartChatWith }) {
-                    chats.add(chat)
+                    chats.add(chatMembership)
                 }
                 targetUser.chats = chats
 

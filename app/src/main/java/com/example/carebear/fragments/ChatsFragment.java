@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.carebear.R;
 import com.example.carebear.activities.chats.StartNewChatActivity;
 import com.example.carebear.adapters.ChatAdapter;
-import com.example.carebear.models.Chat;
+import com.example.carebear.models.ChatMembership;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,21 +65,21 @@ public class ChatsFragment extends Fragment {
     }
 
     private void initChatIds() {
-        final List<Chat> chats = new ArrayList<>();
+        final List<ChatMembership> chatMemberships = new ArrayList<>();
 
         final DatabaseReference userChatsRef = database.getReference("users").child(loggedUserId).child("chats");
         userChatsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chats.clear();
+                chatMemberships.clear();
                 snapshot.getChildren().forEach(chatSnapshot  -> {
-                    Chat chat = chatSnapshot.getValue(Chat.class);
-                    if (chat != null) {
-                        chats.add(chat);
+                    ChatMembership chatMembership = chatSnapshot.getValue(ChatMembership.class);
+                    if (chatMembership != null) {
+                        chatMemberships.add(chatMembership);
                     }
                 });
 
-                initChats(chats);
+                initChats(chatMemberships);
             }
 
             @Override
@@ -89,13 +89,13 @@ public class ChatsFragment extends Fragment {
         });
     }
 
-    private void initChats(List<Chat> chats) {
+    private void initChats(List<ChatMembership> chatMemberships) {
     }
 
-    private void displayChats(List<Chat> chats) {
+    private void displayChats(List<ChatMembership> chatMemberships) {
         final RecyclerView chatsView = rootView.findViewById(R.id.chats_recycler_view);
         chatsView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        final ChatAdapter chatAdapter = new ChatAdapter(this.requireContext(), chats);
+        final ChatAdapter chatAdapter = new ChatAdapter(this.requireContext(), chatMemberships);
         chatsView.setAdapter(chatAdapter);
     }
 

@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
-import com.example.carebear.models.Chat
+import com.example.carebear.models.ChatMembership
 import java.time.format.DateTimeFormatter
 
-class ChatAdapter (private val context: Context, private val chats: List<Chat>) :
+class ChatAdapter (private val context: Context, private val chatMemberships: List<ChatMembership>) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,7 +29,7 @@ class ChatAdapter (private val context: Context, private val chats: List<Chat>) 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        val chat = chats[position]
+        val chat = chatMemberships[position]
 
         holder.textName.text = chat.recipientName
         holder.lastMessage.text = chat.lastMessage
@@ -38,5 +38,5 @@ class ChatAdapter (private val context: Context, private val chats: List<Chat>) 
         holder.timestamp.text = formattedDate
     }
 
-    override fun getItemCount() = chats.size
+    override fun getItemCount() = chatMemberships.size
 }

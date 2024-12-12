@@ -7,5 +7,5 @@ data class User(
     var friendIds: List<String> = emptyList(),
     var friendRequests: List<FriendRequest> = emptyList(),
     var friends: List<Friend> = emptyList(),
-    var chats: List<Chat> = emptyList()
+    var chats: List<ChatMembership> = emptyList()
 )
