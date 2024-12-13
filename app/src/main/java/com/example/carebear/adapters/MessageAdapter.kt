@@ -1,50 +1,51 @@
-package com.example.carebear.adapters;
+package com.example.carebear.adapters
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.carebear.R;
-import com.example.carebear.models.Message;
-import java.util.List;
+import android.content.Context
+import android.os.Build
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.RecyclerView
+import com.example.carebear.R
+import com.example.carebear.models.ChatMessage
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
+class MessageAdapter (
+    private val context: Context,
+    private val messages: List<ChatMessage>
+) :
+    RecyclerView.Adapter<MessageAdapter.ChatMessageViewHolder>() {
 
-    private List<Message> messages;
-
-    public MessageAdapter(List<Message> messages) {
-        this.messages = messages;
+    class ChatMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val textName: TextView = itemView.findViewById(R.id.text_name)
+        val lastMessage: TextView = itemView.findViewById(R.id.message)
+        val date: TextView = itemView.findViewById(R.id.text_date)
+        val hour: TextView = itemView.findViewById(R.id.text_hour)
     }
 
-    @NonNull
-    @Override
-    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_group_message, parent, false);
-        return new MessageViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatMessageViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_message, parent, false)
+        return ChatMessageViewHolder(view)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message message = messages.get(position);
-        holder.senderName.setText(message.getSender());
-        holder.messageText.setText(message.getText());
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onBindViewHolder(holder: ChatMessageViewHolder, position: Int) {
+        val chat = messages[position]
+
+        holder.textName.text = chat.sender.name
+        holder.lastMessage.text = chat.message
+
+        val timestamp = Date(chat.timestamp)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        holder.date.text = dateFormat.format(timestamp)
+        val minuteHourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        holder.hour.text = minuteHourFormat.format(timestamp)
     }
 
-    @Override
-    public int getItemCount() {
-        return messages.size();
-    }
-
-    static class MessageViewHolder extends RecyclerView.ViewHolder {
-        TextView senderName;
-        TextView messageText;
-
-        MessageViewHolder(View itemView) {
-            super(itemView);
-            senderName = itemView.findViewById(R.id.text_view_sender_name);
-            messageText = itemView.findViewById(R.id.text_view_message);
-        }
-    }
+    override fun getItemCount() = messages.size
 }

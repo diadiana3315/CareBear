@@ -1,6 +1,7 @@
 package com.example.carebear.models
 
 class ChatMessage {
+    var sender: BaseUser = BaseUser()
     var message: String = ""
-    var lastMessageTimestamp: java.sql.Timestamp = java.sql.Timestamp(System.currentTimeMillis())
+    var timestamp: Long = System.currentTimeMillis()
 }
