@@ -79,7 +79,7 @@ public class ChatsFragment extends Fragment {
                     }
                 });
 
-                initChats(chatMemberships);
+                displayChats(chatMemberships);
             }
 
             @Override
@@ -89,9 +89,6 @@ public class ChatsFragment extends Fragment {
         });
     }
 
-    private void initChats(List<ChatMembership> chatMemberships) {
-    }
-
     private void displayChats(List<ChatMembership> chatMemberships) {
         final RecyclerView chatsView = rootView.findViewById(R.id.chats_recycler_view);
         chatsView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -99,66 +96,4 @@ public class ChatsFragment extends Fragment {
         chatsView.setAdapter(chatAdapter);
     }
 
-//    private void loadMessages() {
-//        if (chatId == null) return;
-//
-//        chatsRef.child(chatId).child("messages").orderByChild("timestamp")
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        List<ChatMessage> messages = new ArrayList<>();
-//                        for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
-//                            ChatMessage message = messageSnapshot.getValue(ChatMessage.class);
-//                            if (message != null) {
-//                                messages.add(message);
-//                            }
-//                        }
-//                        chatAdapter.setMessages(messages); // Populate all messages
-//                        recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1); // Scroll to last message
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Toast.makeText(getContext(), "Failed to load messages.", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-//
-//    private void listenForMessages() {
-//        if (chatId == null) return;
-//
-//        chatsRef.child(chatId).child("messages").orderByChild("timestamp")
-//                .addChildEventListener(new ChildEventListener() {
-//                    @Override
-//                    public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
-//                        ChatMessage message = snapshot.getValue(ChatMessage.class);
-//                        if (message != null) {
-//                            chatAdapter.addMessage(message); // Append message
-//                            recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {}
-//                    @Override
-//                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
-//                    @Override
-//                    public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {}
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {}
-//                });
-//    }
-//
-//    private void sendMessage(String messageText) {
-//        ChatMessage newMessage = new ChatMessage(messageText, auth.getCurrentUser().getUid(), System.currentTimeMillis());
-//
-//        DatabaseReference newMessageRef = chatsRef.child(chatId).child("messages").push();
-//        newMessageRef.setValue(newMessage).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                // Optionally handle success (e.g., update the UI, show a toast, etc.)
-//            } else {
-//                Toast.makeText(getContext(), "Message failed to send", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 }

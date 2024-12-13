@@ -10,7 +10,9 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.models.ChatMembership
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ChatAdapter (private val context: Context, private val chatMemberships: List<ChatMembership>) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
@@ -18,24 +20,28 @@ class ChatAdapter (private val context: Context, private val chatMemberships: Li
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textName: TextView = itemView.findViewById(R.id.text_name)
         val lastMessage: TextView = itemView.findViewById(R.id.last_message)
-        val timestamp: TextView = itemView.findViewById(R.id.text_date)
+        val date: TextView = itemView.findViewById(R.id.text_date)
+        val hour: TextView = itemView.findViewById(R.id.text_hour)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_friend, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
         return ChatViewHolder(view)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) { // TODO
         val chat = chatMemberships[position]
 
         holder.textName.text = chat.recipientName
         holder.lastMessage.text = chat.lastMessage
-        val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")
-        val formattedDate = chat.timestamp.format(formatter)
-        holder.timestamp.text = formattedDate
+
+        val timestamp = Date(chat.timestamp)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        holder.date.text = dateFormat.format(timestamp)
+        val minuteHourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        holder.hour.text = minuteHourFormat.format(timestamp)
     }
 
     override fun getItemCount() = chatMemberships.size
