@@ -14,7 +14,11 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ChatAdapter (private val context: Context, private val chatMemberships: List<ChatMembership>) :
+class ChatAdapter(
+    private val context: Context,
+    private val chatMemberships: List<ChatMembership>,
+    private val onItemClick: (ChatMembership) -> Unit
+) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,6 +46,10 @@ class ChatAdapter (private val context: Context, private val chatMemberships: Li
         holder.date.text = dateFormat.format(timestamp)
         val minuteHourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         holder.hour.text = minuteHourFormat.format(timestamp)
+
+        holder.itemView.setOnClickListener {
+            onItemClick(chat) // Trigger the callback with the clicked item
+        }
     }
 
     override fun getItemCount() = chatMemberships.size

@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carebear.R;
+import com.example.carebear.activities.chats.ChatActivity;
 import com.example.carebear.activities.chats.StartNewChatActivity;
 import com.example.carebear.adapters.ChatAdapter;
 import com.example.carebear.models.ChatMembership;
@@ -32,16 +31,11 @@ import lombok.var;
 
 public class ChatsFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private EditText etMessage;
-    private ImageButton btnSend;
+    public static final String CHAT_ID_KEY = "chatId";
 
     private View rootView;
-    private final FirebaseAuth auth = FirebaseAuth.getInstance();;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final String loggedUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-
-    private String chatId; // Unique ID for the chat
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,7 +86,13 @@ public class ChatsFragment extends Fragment {
     private void displayChats(List<ChatMembership> chatMemberships) {
         final RecyclerView chatsView = rootView.findViewById(R.id.chats_recycler_view);
         chatsView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        final ChatAdapter chatAdapter = new ChatAdapter(this.requireContext(), chatMemberships);
+        final ChatAdapter chatAdapter = new ChatAdapter(this.requireContext(), chatMemberships, chatMembership -> {
+            Intent intent = new Intent(requireContext(), ChatActivity.class);
+            intent.putExtra(CHAT_ID_KEY, chatMembership.getChatId());
+            startActivity(intent);
+
+            return null;
+        });
         chatsView.setAdapter(chatAdapter);
     }
 
