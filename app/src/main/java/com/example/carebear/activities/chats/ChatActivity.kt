@@ -14,6 +14,8 @@ import com.example.carebear.fragments.ChatsFragment.CHAT_ID_KEY
 import com.example.carebear.models.BaseUser
 import com.example.carebear.models.Chat
 import com.example.carebear.models.ChatMessage
+import com.example.carebear.models.ChatNotification
+import com.example.carebear.services.NotificationService
 import com.example.carebear.services.UserService
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,7 +25,11 @@ import com.google.firebase.database.ValueEventListener
 
 class ChatActivity : AppCompatActivity() {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val userService: UserService = UserService.getInstance()
+    private val notificationService: NotificationService = NotificationService.getInstance()
+    private val loggedUser = UserService.getInstance().getBaseLoggedUser()
+
+    private var isGroupChat = false
+    private var chatName = ""
 
     private lateinit var chatId: String
     private lateinit var messages: List<ChatMessage>
@@ -70,12 +76,13 @@ class ChatActivity : AppCompatActivity() {
         chatRef.child("messages").setValue(messages)
         chatRef.child("lastMessage").setValue(message)
         chatRef.child("lastMessageTimestamp").setValue(System.currentTimeMillis())
+        sendNotification(message)
     }
 
     private fun buildNewChatMessage(message: String): ChatMessage {
         val chatMessage = ChatMessage()
         chatMessage.message = message
-        chatMessage.sender = userService.getBaseLoggedUser()
+        chatMessage.sender = loggedUser
 
         return chatMessage
     }
@@ -91,6 +98,7 @@ class ChatActivity : AppCompatActivity() {
                 } else {
                     messages = chat.messages
                     chatMembers = chat.chatMembers
+                    isGroupChat = chat.isGroupChat
                     displayChat()
                 }
             }
@@ -105,6 +113,22 @@ class ChatActivity : AppCompatActivity() {
         messagesView.layoutManager = LinearLayoutManager(this)
         val messagesAdapter = MessageAdapter(this, messages)
         messagesView.adapter = messagesAdapter
+    }
+
+    private fun sendNotification(message: String) {
+        val targetUsers = chatMembers.filter { user -> user.id != loggedUser.id }
+        val chatNotification = ChatNotification()
+
+        chatNotification.chatId = this.chatId
+        chatNotification.message = message
+
+        if (isGroupChat) {
+            chatNotification.chatName = this.chatName
+        } else {
+            chatNotification.chatName = loggedUser.name
+        }
+
+        notificationService.sendChatNotification(targetUsers, chatNotification)
     }
 
     private fun endSessionWithError() {

@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import lombok.var;
-
 public class ChatsFragment extends Fragment {
 
     public static final String CHAT_ID_KEY = "chatId";
@@ -49,7 +47,7 @@ public class ChatsFragment extends Fragment {
     }
 
     private void initStartNewChatButtonClick() {
-        var startNewChatButton = rootView.findViewById(R.id.btn_start_new_chat);
+        View startNewChatButton = rootView.findViewById(R.id.btn_start_new_chat);
         startNewChatButton.setOnClickListener(viewOnClickListener -> {
             Intent intent = new Intent(getContext(), StartNewChatActivity.class);
             if (getContext() != null) {
