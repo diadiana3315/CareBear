@@ -10,9 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.models.ChatMembership
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class ChatAdapter(
     private val context: Context,

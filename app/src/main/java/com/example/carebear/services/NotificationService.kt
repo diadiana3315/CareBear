@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.carebear.R
+import com.example.carebear.activities.chats.ChatActivity
 import com.example.carebear.activities.friends.FriendRequestsActivity
+import com.example.carebear.fragments.ChatsFragment
 import com.example.carebear.models.BaseUser
 import com.example.carebear.models.ChatNotification
 import com.example.carebear.models.FriendRequest
@@ -120,6 +122,45 @@ class NotificationService private constructor() {
                         }
                     }
                 }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("Failed to read value: " + databaseError.toException())
+            }
+        })
+    }
+
+    fun initChatNotifications(context: Context) {
+        val chatNotificationsRef = database.getReference("userNotifications").child(loggedUserId!!).child("chatNotifications")
+        chatNotificationsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (chatNotificationSnapshot in dataSnapshot.children) {
+                    val chatNotification = chatNotificationSnapshot.getValue(ChatNotification::class.java)
+                    chatNotification.let {
+                        if (it != null) {
+                            if (chatNotification != null) {
+                                val intent = Intent(context, ChatActivity::class.java).apply {
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                }
+                                intent.putExtra(ChatsFragment.CHAT_ID_KEY, chatNotification.chatId)
+                                val pendingIntent = PendingIntent.getActivity(
+                                    context,
+                                    0,
+                                    intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                                )
+                                sendNotification(
+                                    context,
+                                    "New message from: " + chatNotification.chatName,
+                                    chatNotification.message,
+                                    pendingIntent
+                                )
+                            }
+                        }
+                    }
+                }
+
+                chatNotificationsRef.removeValue()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
