@@ -2,12 +2,14 @@ package com.example.carebear.services
 
 import android.content.Context
 import android.widget.Toast
+import com.example.carebear.models.ChatMembership
 import com.example.carebear.models.Friend
 import com.example.carebear.models.FriendRequest
 import com.example.carebear.models.RequestStatus
 import com.example.carebear.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import java.util.UUID
 
 class FriendService private constructor() {
     private var database = FirebaseDatabase.getInstance()
@@ -45,8 +47,6 @@ class FriendService private constructor() {
         }
     }
 
-
-
     fun deleteFriend(context: Context, friendId: String) {
         val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
         if (loggedUserId == null) {
@@ -78,6 +78,39 @@ class FriendService private constructor() {
         }
         addFriendTo(loggedUserId, friendId, friendEmail)
         addFriendTo(friendId, loggedUserId, loggedUserEmail)
+    }
+
+    fun startChat(context: Context, chatId: String, userIdToStartChatWith: String, userEmailToStartChatWith: String) {
+        val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val loggedUserEmail = FirebaseAuth.getInstance().currentUser?.email
+        if (loggedUserId == null || loggedUserEmail == null) {
+            Toast.makeText(context, "New chat failed", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        startChat(chatId, loggedUserId, userIdToStartChatWith, userEmailToStartChatWith)
+        startChat(chatId, userIdToStartChatWith, loggedUserId, loggedUserEmail)
+    }
+
+    private fun startChat(chatId: String, targetUserId: String, userIdToStartChatWith: String, userNameToStartChatWith: String) {
+        val chatMembership = ChatMembership()
+        chatMembership.chatId = chatId
+        chatMembership.recipientId = userIdToStartChatWith
+        chatMembership.recipientName = userNameToStartChatWith
+//        chatMembership.lastMessage = "Send the first message"
+        val usersRef = database.getReference("users")
+        usersRef.child(targetUserId).get().addOnCompleteListener { task ->
+            task.result.getValue(User::class.java)?.let { targetUser ->
+                val chats = ArrayList(targetUser.chats)
+                if (!chats.any { it.recipientId == userIdToStartChatWith }) {
+                    chats.add(chatMembership)
+                }
+                targetUser.chats = chats
+
+                userService.persistUser(targetUser)
+                removeFriendRequest(userIdToStartChatWith, targetUserId)
+            }
+        }
     }
 
     private fun addFriendTo(targetUserId: String, friendId: String, friendEmail: String) {

@@ -12,8 +12,13 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.carebear.R
+import com.example.carebear.activities.chats.ChatActivity
 import com.example.carebear.activities.friends.FriendRequestsActivity
+import com.example.carebear.fragments.ChatsFragment
+import com.example.carebear.models.BaseUser
+import com.example.carebear.models.ChatNotification
 import com.example.carebear.models.FriendRequest
+import com.example.carebear.models.UserNotificationHolder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -123,6 +128,74 @@ class NotificationService private constructor() {
                 println("Failed to read value: " + databaseError.toException())
             }
         })
+    }
+
+    fun initChatNotifications(context: Context) {
+        val chatNotificationsRef = database.getReference("userNotifications").child(loggedUserId!!).child("chatNotifications")
+        chatNotificationsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (chatNotificationSnapshot in dataSnapshot.children) {
+                    val chatNotification = chatNotificationSnapshot.getValue(ChatNotification::class.java)
+                    chatNotification.let {
+                        if (it != null) {
+                            if (chatNotification != null) {
+                                val intent = Intent(context, ChatActivity::class.java).apply {
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                }
+                                intent.putExtra(ChatsFragment.CHAT_ID_KEY, chatNotification.chatId)
+                                val pendingIntent = PendingIntent.getActivity(
+                                    context,
+                                    0,
+                                    intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                                )
+                                sendNotification(
+                                    context,
+                                    "New message from: " + chatNotification.chatName,
+                                    chatNotification.message,
+                                    pendingIntent
+                                )
+                            }
+                        }
+                    }
+                }
+
+                chatNotificationsRef.removeValue()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("Failed to read value: " + databaseError.toException())
+            }
+        })
+    }
+
+    fun sendChatNotification(users: List<BaseUser>, chatNotification: ChatNotification) {
+        users.forEach { user -> sendChatNotification(user, chatNotification) }
+    }
+
+    private fun sendChatNotification(user: BaseUser, chatNotification: ChatNotification) {
+        val userNotificationsRef = database.getReference("userNotifications")
+        userNotificationsRef.child(user.id).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val dataSnapshot = task.result
+                if (dataSnapshot.exists()) {
+                    val userNotificationHolder = task.result
+                        .getValue(UserNotificationHolder::class.java)
+                    if(userNotificationHolder != null) {
+                        val notifications = userNotificationHolder.chatNotifications.toMutableList()
+                        notifications.add(chatNotification)
+                        userNotificationHolder.chatNotifications = notifications
+                        userNotificationsRef.child(user.id).setValue(userNotificationHolder)
+                    }
+                } else {
+                    val newUserNotification = UserNotificationHolder()
+                    newUserNotification.userId = user.id
+                    newUserNotification.chatNotifications = listOf(chatNotification)
+
+                    userNotificationsRef.child(user.id).setValue(newUserNotification)
+                }
+            }
+        }
     }
 
     private fun generateRandomId(): String {

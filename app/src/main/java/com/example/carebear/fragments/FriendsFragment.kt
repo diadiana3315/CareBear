@@ -50,7 +50,7 @@ class FriendsFragment : Fragment() {
         notificationButton.setOnClickListener {
             val intent = Intent(context, FriendRequestsActivity::class.java)
             context?.startActivity(intent)
-        }
+    }
 
         return rootView
     }

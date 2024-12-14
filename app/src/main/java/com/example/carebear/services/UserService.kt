@@ -1,6 +1,8 @@
 package com.example.carebear.services
 
+import com.example.carebear.models.BaseUser
 import com.example.carebear.models.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 
@@ -63,6 +65,16 @@ class UserService private constructor() {
     fun persistUser(user: User) {
         val usersRef = database.getReference("users")
         usersRef.child(user.id).setValue(user)
+    }
+
+    fun getBaseLoggedUser(): BaseUser {
+        val loggedUserId: String? = FirebaseAuth.getInstance().currentUser?.uid
+        val loggedUserEmail: String? = FirebaseAuth.getInstance().currentUser?.email
+        val id = loggedUserId ?: ""
+        val name = loggedUserEmail ?: ""
+        val email = loggedUserEmail ?: ""
+
+        return BaseUser(id, name, email)
     }
 
     private fun extractAndCapitalizeEmailPrefix(email: String): String {

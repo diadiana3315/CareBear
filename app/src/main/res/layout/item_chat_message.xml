@@ -4,14 +4,14 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!-- Container for email and last message -->
+    <!-- Container for name and message -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!-- Email Text -->
+        <!-- Name Text -->
         <TextView
             android:id="@+id/text_name"
             android:layout_width="match_parent"
@@ -20,14 +20,15 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Last Message Text -->
+        <!-- Message Text (Bigger) -->
         <TextView
-            android:id="@+id/last_message"
+            android:id="@+id/message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#808080"
-            android:textSize="14sp"
-            android:paddingTop="6dp" />
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:paddingTop="6dp"
+            android:textStyle="normal" />
     </LinearLayout>
 
     <!-- Date and Hour Container -->

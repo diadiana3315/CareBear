@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
 
         initialiseNotifications()
         notificationService.initFriendRequestsNotifications(this)
+        notificationService.initChatNotifications(this)
 
         checkIfLoggedIn()
 

@@ -4,12 +4,24 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <!-- Back Arrow Button -->
+    <ImageButton
+        android:id="@+id/button_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="7dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Chats"
+        android:text="Start new chat"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +30,7 @@
 
     <!-- Search user divider line -->
     <View
-        android:id="@+id/divider"
+        android:id="@+id/start_new_chat_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
@@ -29,27 +41,14 @@
 
     <!-- Found users RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chats_recycler_view"
+        android:id="@+id/start_new_chat_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/start_new_chat_divider"
         app:layout_constraintVertical_bias="1.0" />
-
-    <!-- Floating Action Button to toggle the input form -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_start_new_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="Start new chat"
-        android:src="@drawable/baseline_add_box_24"
-        app:backgroundTint="@android:color/darker_gray"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
