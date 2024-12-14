@@ -39,13 +39,13 @@ class ChatAdapter(
         val chat = chatMemberships[position]
 
         holder.textName.text = chat.recipientName
-        holder.lastMessage.text = chat.lastMessage
-
-        val timestamp = Date(chat.timestamp)
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        holder.date.text = dateFormat.format(timestamp)
-        val minuteHourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        holder.hour.text = minuteHourFormat.format(timestamp)
+//        holder.lastMessage.text = chat.lastMessage
+//
+//        val timestamp = Date(chat.timestamp)
+//        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+//        holder.date.text = dateFormat.format(timestamp)
+//        val minuteHourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+//        holder.hour.text = minuteHourFormat.format(timestamp)
 
         holder.itemView.setOnClickListener {
             onItemClick(chat) // Trigger the callback with the clicked item

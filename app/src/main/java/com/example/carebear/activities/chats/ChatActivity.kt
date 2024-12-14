@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carebear.R
 import com.example.carebear.adapters.MessageAdapter
 import com.example.carebear.fragments.ChatsFragment.CHAT_ID_KEY
+import com.example.carebear.models.BaseUser
 import com.example.carebear.models.Chat
 import com.example.carebear.models.ChatMessage
 import com.example.carebear.services.UserService
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -23,10 +23,11 @@ import com.google.firebase.database.ValueEventListener
 
 class ChatActivity : AppCompatActivity() {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
-    private var messages: List<ChatMessage> = listOf()
-    private var chatId: String = ""
+    private val userService: UserService = UserService.getInstance()
 
+    private lateinit var chatId: String
+    private lateinit var messages: List<ChatMessage>
+    private lateinit var chatMembers: List<BaseUser>
     private lateinit var chatRef: DatabaseReference
     private lateinit var messagesView: RecyclerView
     private lateinit var messageInput: EditText
@@ -74,7 +75,7 @@ class ChatActivity : AppCompatActivity() {
     private fun buildNewChatMessage(message: String): ChatMessage {
         val chatMessage = ChatMessage()
         chatMessage.message = message
-        chatMessage.sender = UserService.getInstance().getBaseLoggedUser()
+        chatMessage.sender = userService.getBaseLoggedUser()
 
         return chatMessage
     }
@@ -89,6 +90,7 @@ class ChatActivity : AppCompatActivity() {
                     endSessionWithError()
                 } else {
                     messages = chat.messages
+                    chatMembers = chat.chatMembers
                     displayChat()
                 }
             }

@@ -97,7 +97,7 @@ class FriendService private constructor() {
         chatMembership.chatId = chatId
         chatMembership.recipientId = userIdToStartChatWith
         chatMembership.recipientName = userNameToStartChatWith
-        chatMembership.lastMessage = "Send the first message"
+//        chatMembership.lastMessage = "Send the first message"
         val usersRef = database.getReference("users")
         usersRef.child(targetUserId).get().addOnCompleteListener { task ->
             task.result.getValue(User::class.java)?.let { targetUser ->

@@ -2,7 +2,6 @@ package com.example.carebear.services
 
 import com.example.carebear.models.BaseUser
 import com.example.carebear.models.Chat
-import com.example.carebear.models.ChatMessage
 import com.google.firebase.database.FirebaseDatabase
 
 class ChatService private constructor() {
