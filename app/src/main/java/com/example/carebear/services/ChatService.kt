@@ -27,7 +27,6 @@ class ChatService private constructor() {
     fun createPrivateChat(firstUser: BaseUser, secondUser: BaseUser): Chat {
         val chat = Chat()
         chat.chatMembers = listOf(firstUser, secondUser)
-        chat.messages = getMockMessages(firstUser, secondUser) // TODO: REMOVE AFTER
 
         persistNewChat(chat)
         return chat
@@ -37,17 +36,5 @@ class ChatService private constructor() {
         val newChatRef = database.getReference("chats").push()
         chat.chatId = newChatRef.key.toString()
         newChatRef.setValue(chat)
-    }
-
-    private fun getMockMessages(firstUser: BaseUser, secondUser: BaseUser): List<ChatMessage> {
-        val message1 = ChatMessage()
-        message1.message = "This is first message from " + firstUser.name
-        message1.sender = firstUser
-
-        val message2 = ChatMessage()
-        message2.message = "This is second message from " + secondUser.name
-        message2.sender = secondUser
-
-        return listOf(message1, message2)
     }
 }

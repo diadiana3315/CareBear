@@ -58,8 +58,8 @@
             android:id="@+id/btn_send"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:contentDescription="Send Message"
             android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Send Message"
             android:src="@android:drawable/ic_menu_send" />
     </LinearLayout>
 </RelativeLayout>
