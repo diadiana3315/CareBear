@@ -1,50 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Username" />
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/et_bio"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Bio" />
+
+    <EditText
+        android:id="@+id/et_medical_conditions"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Medical Conditions" />
+
+    <EditText
+        android:id="@+id/et_medications"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Medications" />
+
+    <EditText
+        android:id="@+id/et_allergies"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Allergies" />
+
+    <Button
+        android:id="@+id/btn_save_changes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <Button
-            android:id="@+id/btn_change_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="Change Picture"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"/>
-
-        <!-- Username Edit -->
-        <EditText
-            android:id="@+id/et_username"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Username" />
-
-        <!-- Bio Edit -->
-        <EditText
-            android:id="@+id/et_bio"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Bio"
-            android:inputType="textMultiLine" />
-
-        <!-- Save Changes Button -->
-        <Button
-            android:id="@+id/btn_save_changes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Save Changes"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
-</ScrollView>
+        android:text="Save Changes" />
+</LinearLayout>
