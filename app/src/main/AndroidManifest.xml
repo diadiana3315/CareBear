@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CareBear"
         tools:targetApi="31">
         <activity
+            android:name=".activities.groups.CreateGroupChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.chats.StartNewChatActivity"
             android:exported="false" />
         <activity
