@@ -1,8 +1,9 @@
 package com.example.carebear.adapters;
+
+import static com.example.carebear.fragments.ChatsFragment.CHAT_ID_KEY;
+
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,54 +14,55 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carebear.R;
-import com.example.carebear.activities.chats.ChatForumActivity;
+import com.example.carebear.activities.chats.ChatActivity;
+import com.example.carebear.models.BaseUser;
+import com.example.carebear.models.GroupChat;
+import com.example.carebear.services.ChatService;
+import com.example.carebear.services.UserService;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewHolder> {
 
-    private Context context;
-    private List<String> groupNames;
+    private static final ChatService chatService = ChatService.Companion.getInstance();
+    private static final UserService userService = UserService.Companion.getInstance();
+    private static final BaseUser loggedUser = UserService.Companion.getInstance().getBaseLoggedUser();
 
-    public GroupsAdapter(Context context, List<String> groupNames) {
-        this.context = context;
-        this.groupNames = groupNames;
-    }
+    private final Context context;
+    private final List<GroupChat> groupChats;
 
     @NonNull
     @Override
     public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_group, parent, false);
+
         return new GroupViewHolder(view);
     }
 
-//    @Override
-//    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-//        String groupName = groupNames.get(position);
-//        holder.groupName.setText(groupName);
-//
-//        holder.attachMediaButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            intent.setType("image/* video/*");
-//            context.startActivity(intent);
-//        });
-//    }
-@Override
-public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-    String groupName = groupNames.get(position);
-    holder.groupName.setText(groupName);
+    @Override
+    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
+        GroupChat groupChat = groupChats.get(position);
+        String chatId = groupChat.getChatId();
+        String groupName = groupChat.getName();
+        holder.groupName.setText(groupName);
 
-    holder.itemView.setOnClickListener(v -> {
-        Intent intent = new Intent(context, ChatForumActivity.class);
-        intent.putExtra("GROUP_NAME", groupName); // Pass the group name or ID
-        context.startActivity(intent);
-    });
-}
+        holder.itemView.setOnClickListener(v -> {
+            chatService.joinGroupChat(loggedUser, chatId);
+
+            Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra(CHAT_ID_KEY, chatId);
+
+            context.startActivity(intent);
+        });
+    }
 
 
     @Override
     public int getItemCount() {
-        return groupNames.size();
+        return groupChats.size();
     }
 
     static class GroupViewHolder extends RecyclerView.ViewHolder {
