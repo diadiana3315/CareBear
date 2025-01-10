@@ -31,6 +31,16 @@ class ChatService private constructor() {
         return chat
     }
 
+    fun createGroupChat(chatName: String): Chat {
+        val chat = Chat()
+        chat.chatMembers = listOf()
+        chat.isGroupChat = true
+        chat.chatName = chatName
+
+        persistNewChat(chat)
+        return chat
+    }
+
     private fun persistNewChat(chat: Chat) {
         val newChatRef = database.getReference("chats").push()
         chat.chatId = newChatRef.key.toString()
