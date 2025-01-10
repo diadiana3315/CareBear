@@ -12,7 +12,8 @@ data class User(
     var bio: String? = null,
     var medicalConditions: String? = null,
     var medications: String? = null,
-    var allergies: String? = null
+    var allergies: String? = null,
+    var areNotificationsEnabled: Boolean? = false
 ) {
     // Secondary constructor without `username` and `bio`
     constructor(
@@ -36,5 +37,6 @@ data class User(
         medicalConditions = null,
         medications = null,
         allergies = null,
+        areNotificationsEnabled = false
     )
 }

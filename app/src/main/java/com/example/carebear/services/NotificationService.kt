@@ -18,6 +18,7 @@ import com.example.carebear.fragments.ChatsFragment
 import com.example.carebear.models.BaseUser
 import com.example.carebear.models.ChatNotification
 import com.example.carebear.models.FriendRequest
+import com.example.carebear.models.User
 import com.example.carebear.models.UserNotificationHolder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -28,8 +29,11 @@ import java.util.Random
 import java.util.UUID
 
 class NotificationService private constructor() {
-    private var database = FirebaseDatabase.getInstance()
     private val loggedUserId = FirebaseAuth.getInstance().currentUser?.uid
+    private val userService = UserService.getInstance()
+
+    private var database = FirebaseDatabase.getInstance()
+    private var areNotificationsEnabled = false
 
     companion object {
         @Volatile
@@ -40,12 +44,21 @@ class NotificationService private constructor() {
                 instance ?: NotificationService().also {
                     instance = it
                     it.database = FirebaseDatabase.getInstance()
+                    it.loadNotificationPreferences()
                 }
             }
         }
     }
 
-    fun sendNotification(context: Context, title: String, message: String, pendingIntent: PendingIntent) {
+    fun sendNotification(
+        context: Context,
+        title: String,
+        message: String,
+        pendingIntent: PendingIntent
+    ) {
+        if (!areNotificationsEnabled) {
+            return
+        }
         // Check permissions for Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(
@@ -131,16 +144,19 @@ class NotificationService private constructor() {
     }
 
     fun initChatNotifications(context: Context) {
-        val chatNotificationsRef = database.getReference("userNotifications").child(loggedUserId!!).child("chatNotifications")
+        val chatNotificationsRef = database.getReference("userNotifications").child(loggedUserId!!)
+            .child("chatNotifications")
         chatNotificationsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (chatNotificationSnapshot in dataSnapshot.children) {
-                    val chatNotification = chatNotificationSnapshot.getValue(ChatNotification::class.java)
+                    val chatNotification =
+                        chatNotificationSnapshot.getValue(ChatNotification::class.java)
                     chatNotification.let {
                         if (it != null) {
                             if (chatNotification != null) {
                                 val intent = Intent(context, ChatActivity::class.java).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 }
                                 intent.putExtra(ChatsFragment.CHAT_ID_KEY, chatNotification.chatId)
                                 val pendingIntent = PendingIntent.getActivity(
@@ -170,10 +186,16 @@ class NotificationService private constructor() {
     }
 
     fun sendChatNotification(users: List<BaseUser>, chatNotification: ChatNotification) {
+        if (!areNotificationsEnabled) {
+            return
+        }
         users.forEach { user -> sendChatNotification(user, chatNotification) }
     }
 
     private fun sendChatNotification(user: BaseUser, chatNotification: ChatNotification) {
+        if (!areNotificationsEnabled) {
+            return
+        }
         val userNotificationsRef = database.getReference("userNotifications")
         userNotificationsRef.child(user.id).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -181,7 +203,7 @@ class NotificationService private constructor() {
                 if (dataSnapshot.exists()) {
                     val userNotificationHolder = task.result
                         .getValue(UserNotificationHolder::class.java)
-                    if(userNotificationHolder != null) {
+                    if (userNotificationHolder != null) {
                         val notifications = userNotificationHolder.chatNotifications.toMutableList()
                         notifications.add(chatNotification)
                         userNotificationHolder.chatNotifications = notifications
@@ -200,5 +222,25 @@ class NotificationService private constructor() {
 
     private fun generateRandomId(): String {
         return UUID.randomUUID().toString()
+    }
+
+    private fun loadNotificationPreferences() {
+        userService.getLoggedUserReference().addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // Convert the snapshot to a User object
+                    val loggedUser = snapshot.getValue(
+                        User::class.java
+                    )
+                    if (loggedUser != null) {
+                        areNotificationsEnabled = java.lang.Boolean.TRUE
+                            .equals(loggedUser.areNotificationsEnabled)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 }
