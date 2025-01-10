@@ -1,13 +1,17 @@
 package com.example.carebear.activities.chats
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Button
+import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +29,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.security.AccessController.getContext
 
 class ChatActivity : AppCompatActivity() {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -56,11 +59,26 @@ class ChatActivity : AppCompatActivity() {
 
         // Media
         attachMediaButton = findViewById(R.id.btn_attach_media)
-        attachMediaButton.setOnClickListener{
-            intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/* video/*");
-            this.startActivity(intent)
-        };
+
+        val photoPreviewLayout: FrameLayout = findViewById(R.id.photo_preview_layout)
+        val photoPreview: ImageView = findViewById(R.id.photo_preview)
+        val pickMediaLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val selectedMediaUri: Uri? = result.data?.data
+                if (selectedMediaUri != null) {
+                    photoPreview.setImageURI(selectedMediaUri)
+                    photoPreviewLayout.visibility = View.VISIBLE
+                }
+            }
+        }
+        attachMediaButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "image/* video/*"
+            pickMediaLauncher.launch(intent)
+        }
+
 
         // Messages display
         messagesView = findViewById(R.id.recycler_view_messages)

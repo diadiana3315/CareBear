@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,8 +13,6 @@
         android:padding="8dp" />
 
     <!-- RecyclerView to display chat messages -->
-
-    <!-- Input section at the bottom -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_messages"
         android:layout_width="match_parent"
@@ -26,6 +23,7 @@
         android:layout_marginBottom="1dp"
         android:padding="8dp" />
 
+    <!-- Chat Input Section -->
     <LinearLayout
         android:id="@+id/chat_input_layout"
         android:layout_width="match_parent"
@@ -62,4 +60,22 @@
             android:contentDescription="Send Message"
             android:src="@android:drawable/ic_menu_send" />
     </LinearLayout>
+
+    <!-- Hidden Section for Attached Photo -->
+    <FrameLayout
+        android:id="@+id/photo_preview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:padding="8dp">
+
+        <!-- ImageView to Display Photo -->
+        <ImageView
+            android:id="@+id/photo_preview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Photo Preview" />
+    </FrameLayout>
 </RelativeLayout>
