@@ -22,10 +22,19 @@ import com.example.carebear.activities.settings.ChangePasswordActivity;
 import com.example.carebear.activities.settings.EditProfileActivity;
 import com.example.carebear.activities.MainActivity;
 import com.example.carebear.activities.settings.NotificationPreferencesActivity;
+import com.example.carebear.models.User;
+import com.example.carebear.services.UserService;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ProfileFragment extends Fragment {
+
+    private final UserService userService = UserService.Companion.getInstance();
     private FirebaseAuth mAuth;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private ImageView profilePicture;
     private TextView tvUsername, tvBio;
     private EditText etMedications, etAllergies;
@@ -66,14 +75,27 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserData() {
-        // Placeholder: Load user data from your data source
-        tvUsername.setText("SampleUsername");
-        tvBio.setText("This is a sample bio.");
-//        etMedications.setText("Sample medication");
-//        etAllergies.setText("Sample allergy");
-        // Set initial visibility based on saved preferences
-//        RadioButton rbPublic = getView().findViewById(R.id.rb_public);
-//        rbPublic.setChecked(true); // Example of setting default to public
+        tvUsername.setText("");
+        tvBio.setText("");
+        userService.getLoggedUserReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Convert the snapshot to a User object
+                    User loggedUser = snapshot.getValue(User.class);
+
+                    if (loggedUser != null) {
+                        // Update UI with the logged user's data
+                        tvUsername.setText(loggedUser.getName());
+                        tvBio.setText(loggedUser.getBio());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     private void editProfile() {

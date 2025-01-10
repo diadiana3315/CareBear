@@ -4,7 +4,12 @@ import com.example.carebear.models.BaseUser
 import com.example.carebear.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import lombok.extern.java.Log
 
 class UserService private constructor() {
     private var database = FirebaseDatabase.getInstance()
@@ -75,6 +80,42 @@ class UserService private constructor() {
         val email = loggedUserEmail ?: ""
 
         return BaseUser(id, name, email)
+    }
+
+    fun getLoggedUser(callback: (User?) -> Unit) {
+        val loggedUserId: String? = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (loggedUserId == null) {
+            callback(null)
+            return
+        }
+
+        val database = FirebaseDatabase.getInstance().getReference("users").child(loggedUserId)
+
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val user = snapshot.getValue(User::class.java)
+                    callback(user)
+                } else {
+                    callback(null)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null)
+            }
+        })
+    }
+
+    fun getLoggedUserReference(): DatabaseReference {
+        val loggedUserId: String? = FirebaseAuth.getInstance().currentUser?.uid
+
+        return if (loggedUserId != null) {
+            database.getReference("users").child(loggedUserId);
+        } else {
+            database.getReference("users").child("")
+        }
     }
 
     private fun extractAndCapitalizeEmailPrefix(email: String): String {
