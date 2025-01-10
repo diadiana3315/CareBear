@@ -8,8 +8,11 @@ data class User(
     var friendRequests: List<FriendRequest> = emptyList(),
     var friends: List<Friend> = emptyList(),
     var chats: List<ChatMembership> = emptyList(),
-    var username: String? = null, // Nullable
-    var bio: String? = null       // Nullable
+    var username: String? = null,
+    var bio: String? = null,
+    var medicalConditions: String? = null,
+    var medications: String? = null,
+    var allergies: String? = null
 ) {
     // Secondary constructor without `username` and `bio`
     constructor(
@@ -29,6 +32,9 @@ data class User(
         friends = friends,
         chats = chats,
         username = null,
-        bio = null
+        bio = null,
+        medicalConditions = null,
+        medications = null,
+        allergies = null,
     )
 }

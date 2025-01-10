@@ -18,9 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.carebear.R;
+import com.example.carebear.activities.MainActivity;
 import com.example.carebear.activities.settings.ChangePasswordActivity;
 import com.example.carebear.activities.settings.EditProfileActivity;
-import com.example.carebear.activities.MainActivity;
 import com.example.carebear.activities.settings.NotificationPreferencesActivity;
 import com.example.carebear.models.User;
 import com.example.carebear.services.UserService;
@@ -37,9 +37,8 @@ public class ProfileFragment extends Fragment {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private ImageView profilePicture;
     private TextView tvUsername, tvBio;
-    private EditText etMedications, etAllergies;
-//    private RadioGroup rgVisibility;
-    private Button btnEditProfile, btnChangePassword, btnNotificationPreferences, btnLogout;
+    private EditText etMedicalConditions, etMedications, etAllergies;
+    private Button btnEditProfile, btnChangePassword, btnNotificationPreferences, btnLogout, submitHealthInfo;
 
     @Nullable
     @Override
@@ -52,12 +51,14 @@ public class ProfileFragment extends Fragment {
         profilePicture = view.findViewById(R.id.profile_picture);
         tvUsername = view.findViewById(R.id.tv_username);
         tvBio = view.findViewById(R.id.tv_bio);
+        etMedicalConditions = view.findViewById(R.id.et_medical_conditions);
         etMedications = view.findViewById(R.id.et_medications);
         etAllergies = view.findViewById(R.id.et_allergies);
 //        rgVisibility = view.findViewById(R.id.rg_visibility);
         btnEditProfile = view.findViewById(R.id.btn_edit_profile);
         btnChangePassword = view.findViewById(R.id.btn_change_password);
         btnNotificationPreferences = view.findViewById(R.id.btn_notification_preferences);
+        submitHealthInfo = view.findViewById(R.id.btn_submit_health_information);
 //        btnThemeOptions = view.findViewById(R.id.btn_theme_options);
         btnLogout = view.findViewById(R.id.btn_logout);
 
@@ -68,6 +69,7 @@ public class ProfileFragment extends Fragment {
         btnEditProfile.setOnClickListener(v -> editProfile());
         btnChangePassword.setOnClickListener(v -> changePassword());
         btnNotificationPreferences.setOnClickListener(v -> openNotificationPreferences());
+        submitHealthInfo.setOnClickListener(v -> submitHealthInformation());
 //        btnThemeOptions.setOnClickListener(v -> openThemeOptions());
         btnLogout.setOnClickListener(v -> logout());
 
@@ -88,6 +90,9 @@ public class ProfileFragment extends Fragment {
                         // Update UI with the logged user's data
                         tvUsername.setText(loggedUser.getName());
                         tvBio.setText(loggedUser.getBio());
+                        etMedicalConditions.setText(loggedUser.getMedicalConditions());
+                        etMedications.setText(loggedUser.getMedications());
+                        etAllergies.setText(loggedUser.getAllergies());
                     }
                 }
             }
@@ -111,6 +116,24 @@ public class ProfileFragment extends Fragment {
     private void openNotificationPreferences() {
         Intent intent = new Intent(getActivity(), NotificationPreferencesActivity.class);
         startActivity(intent);
+    }
+
+    private void submitHealthInformation() {
+        userService.getLoggedUser(loggedUser -> {
+            String medicalConditions = etMedicalConditions.getText().toString();
+            String medications = etMedications.getText().toString();
+            String allergies = etAllergies.getText().toString();
+
+            loggedUser.setMedicalConditions(medicalConditions);
+            loggedUser.setMedications(medications);
+            loggedUser.setAllergies(allergies);
+
+            userService.persistUser(loggedUser);
+
+            return null;
+        });
+
+        Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
     }
 
     private void logout() {
