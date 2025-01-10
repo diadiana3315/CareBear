@@ -1,6 +1,9 @@
 package com.example.carebear.activities.chats
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
@@ -22,6 +25,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.security.AccessController.getContext
 
 class ChatActivity : AppCompatActivity() {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -38,6 +42,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messagesView: RecyclerView
     private lateinit var messageInput: EditText
     private lateinit var sendButton: ImageButton
+    private lateinit var attachMediaButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,14 @@ class ChatActivity : AppCompatActivity() {
         messageInput = findViewById(R.id.et_message)
         sendButton = findViewById(R.id.btn_send)
         initSendMessage()
+
+        // Media
+        attachMediaButton = findViewById(R.id.btn_attach_media)
+        attachMediaButton.setOnClickListener{
+            intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/* video/*");
+            this.startActivity(intent)
+        };
 
         // Messages display
         messagesView = findViewById(R.id.recycler_view_messages)
