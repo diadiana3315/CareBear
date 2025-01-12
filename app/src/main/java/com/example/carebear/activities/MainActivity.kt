@@ -50,10 +50,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        initialiseNotifications()
-        notificationService.initFriendRequestsNotifications(this)
-        notificationService.initChatNotifications(this)
-
         checkIfLoggedIn()
 
         setContent {
@@ -75,6 +71,10 @@ class MainActivity : ComponentActivity() {
     private fun checkIfLoggedIn() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
+            initialiseNotifications()
+            notificationService.initFriendRequestsNotifications(this)
+            notificationService.initChatNotifications(this)
+
             val intent = Intent(this, HomeActivity::class.java)
             this.startActivity(intent)
 
