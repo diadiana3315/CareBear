@@ -1,4 +1,4 @@
-package com.example.carebear
+package ro.gnd.solutions.carebear
 
 import org.junit.Test
 

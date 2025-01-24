@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.carebear"
+    namespace = "ro.gnd.solutions.carebear"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.carebear"
+        applicationId = "ro.gnd.solutions.carebear"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

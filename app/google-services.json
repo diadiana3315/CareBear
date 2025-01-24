@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:532673729053:android:3018e2721c39acf5be2cf4",
         "android_client_info": {
-          "package_name": "com.example.carebear"
+          "package_name": "ro.gnd.solutions.carebear"
         }
       },
       "oauth_client": [

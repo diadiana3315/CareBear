@@ -44,30 +44,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.authentications.RegisterActivity"
+            android:name="ro.gnd.solutions.carebear.activities.authentications.RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.authentications.LoginActivity"
+            android:name="ro.gnd.solutions.carebear.activities.authentications.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name="ro.gnd.solutions.carebear.activities.HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.settings.EditProfileActivity"
+            android:name="ro.gnd.solutions.carebear.activities.settings.EditProfileActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.settings.ChangePasswordActivity"
+            android:name="ro.gnd.solutions.carebear.activities.settings.ChangePasswordActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.settings.NotificationPreferencesActivity"
+            android:name="ro.gnd.solutions.carebear.activities.settings.NotificationPreferencesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.groups.GroupChatActivity"
+            android:name="ro.gnd.solutions.carebear.activities.groups.GroupChatActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.chats.ChatForumActivity"
+            android:name="ro.gnd.solutions.carebear.activities.chats.ChatForumActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
