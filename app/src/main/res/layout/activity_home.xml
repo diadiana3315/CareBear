@@ -3,6 +3,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/tvStreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Streak: "
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/purple_flame"
+        android:padding="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="100dp"
+        android:layout_margin="16dp" />
+
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"

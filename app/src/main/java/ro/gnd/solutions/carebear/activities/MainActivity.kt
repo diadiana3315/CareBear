@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,9 +34,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import ro.gnd.solutions.carebear.R
 import ro.gnd.solutions.carebear.activities.authentications.SsoActivity
 import ro.gnd.solutions.carebear.models.User
 import ro.gnd.solutions.carebear.services.NotificationService
+import ro.gnd.solutions.carebear.services.StreakTrackerService
 import ro.gnd.solutions.carebear.services.UserService
 import ro.gnd.solutions.carebear.theme.CareBearTheme
 
@@ -43,10 +47,15 @@ class MainActivity : ComponentActivity() {
     private var userService: UserService = UserService.getInstance()
     private var notificationService: NotificationService = NotificationService.getInstance()
     private val activityResultLauncher: ActivityResultLauncher<String> = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+    private lateinit var streakTrackerService: StreakTrackerService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        streakTrackerService = StreakTrackerService()
+        streakTrackerService.updateStreak()
+
 
         checkIfLoggedIn()
 
@@ -58,6 +67,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+
     }
 
     override fun onRestart() {
@@ -65,6 +76,20 @@ class MainActivity : ComponentActivity() {
             super.onRestart()
         }
     }
+//    override fun onResume() {
+//        super.onResume()
+//
+//        val userId = FirebaseAuth.getInstance().currentUser?.uid
+//        val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId ?: "")
+//
+//        userRef.get().addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val streak = task.result.child("streak").getValue(Int::class.java) ?: 0
+//                val tvStreak: TextView = findViewById(R.id.tvStreak)
+//                tvStreak.text = "Your Streak: $streak"
+//            }
+//        }
+//    }
 
     private fun checkIfLoggedIn() {
         val currentUser = FirebaseAuth.getInstance().currentUser
